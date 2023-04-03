@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mise à jour d'un personnages{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <h1>Mise à jour d'un personnages</h1>
+            <div>
+                <a href="{{ path('app_perso_index') }}" class="btn btn-secondary"><i class="fa-solid fa-rotate-left"></i> Retour</a>
+            </div>
+        </div>
+
+        <div>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

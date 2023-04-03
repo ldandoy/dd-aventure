@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li 
+                        class="breadcrumb-item" 
+                        aria-current="page"
+                    >{{ place.city.zone.name }}</li>
+                    <li 
+                        hx-trigger="click" 
+                        hx-get="{{ path('app_partiel_aventure_city', {id: place.city.id}) }}"
+                        class="breadcrumb-item" 
+                        aria-current="page"
+                    >{{ place.city.name }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ place.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {% for pnj in place.pnjs %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pnj.name }}</h5>
+                        <div href="#" class="btn btn-primary">Parler</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a 
+                hx-trigger="click" 
+                hx-get="{{ path('app_partiel_aventure_city', {id: place.city.id}) }}"
+                class="btn btn-secondary" 
+                aria-current="page"
+            >Sortir</a>
+        </div>
+        <div class="col">
+            <div class="" id=""></div>
+        </div>
+    </div>
+</div>

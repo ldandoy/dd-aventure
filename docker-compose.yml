@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: mysql_dd_aventure
+    image: 'mysql'
+    command: '--default-authentication-plugin=mysql_native_password'
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: dd-aventure
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - dd-aventure
+
+  php:
+    container_name: php_dd_aventure
+    build:
+      context: ./app
+      dockerfile: ../php8.1/Dockerfile
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./app:/var/www
+      - ./php8.1/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./php8.1/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./php8.1/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    depends_on:
+      - mysql
+    networks:
+      - dd-aventure
+
+  nginx:
+    container_name: nginx_dd_aventure
+    image: nginx:stable-alpine
+    ports:
+      - '80:80'
+    volumes:
+      - ./app:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - dd-aventure
+
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_dd_aventure
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - "8081:80"
+    networks:
+      - dd-aventure
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_dd_aventure
+    depends_on:
+      - mysql
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    networks:
+      - dd-aventure
+
+networks:
+  dd-aventure:

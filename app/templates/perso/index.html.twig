@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de tous vos personnages{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Liste des personnages</h1>
+                <div>
+                    <a href="{{ path('app_perso_add') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Créer un personnage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div>
+            {% if persos|length > 0 %}
+                {% for perso in persos %}
+                    <div class="box">
+                        <div class="title">
+                            <h2>{{ perso.name }}</h2>
+                            <div class="">
+                                <a href="{{ path('app_aventure_index', { id: perso.id }) }}" class="btn btn-success">Partir à l'aventure</a>
+                                <a href="{{ path('app_perso_edit', { id: perso.id }) }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i> Editer</a>
+                                <a href="{{ path('app_perso_delete', { id: perso.id }) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div><b>Point de vie</b>: <span>{{ perso.pdv }}</span></div>
+                            <div><b>Vitesse</b>: {{ perso.vitesse }}</div>
+                            <div><b>Force</b>: {{ perso.puissance }}</div>
+                            <div><b>Constitution</b>: {{ perso.constitution }}</div>
+                            <div><b>Dextérité</b>: {{ perso.dexterite }}</div>
+                            <div><b>Charisme</b>: {{ perso.charisme }}</div>
+                            <div><b>Intelligence</b>: {{ perso.intelligence }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">Vous n'avez pas de personnages</div>
+                <div class="text-center">
+                    <a href="{{ path('app_perso_add') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Créer un personnage</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
