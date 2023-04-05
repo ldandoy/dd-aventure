@@ -19,7 +19,6 @@ class Place
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'places')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: Pnj::class, orphanRemoval: true)]
@@ -28,10 +27,17 @@ class Place
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: Perso::class, orphanRemoval: true)]
     private Collection $persos;
 
+    #[ORM\OneToMany(mappedBy: 'place', targetEntity: Quest::class)]
+    private Collection $quests;
+
+    #[ORM\ManyToOne(inversedBy: 'places')]
+    private ?Zone $zone = null;
+
     public function __construct()
     {
         $this->pnjs = new ArrayCollection();
         $this->persos = new ArrayCollection();
+        $this->quests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +125,48 @@ class Place
                 $perso->setPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): self
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+            $quest->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): self
+    {
+        if ($this->quests->removeElement($quest)) {
+            // set the owning side to null (unless already changed)
+            if ($quest->getPlace() === $this) {
+                $quest->setPlace(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getZone(): ?Zone
+    {
+        return $this->zone;
+    }
+
+    public function setZone(?Zone $zone): self
+    {
+        $this->zone = $zone;
 
         return $this;
     }

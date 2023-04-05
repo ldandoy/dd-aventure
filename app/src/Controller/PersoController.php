@@ -50,7 +50,7 @@ class PersoController extends AbstractController
 
 
             $place = $em->getRepository(Place::class)->find(2);
-            $perso->setPace($place);
+            $perso->setPlace($place);
 
             $em->persist($perso);
             $em->flush();

@@ -25,7 +25,14 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">{{ pnj.name }}</h5>
-                        <div href="#" class="btn btn-primary">Parler</div>
+                        {% for quest in pnj.quests %}
+                            <div 
+                                hx-trigger="click" 
+                                hx-get="{{ path('app_partiel_aventure_city_pnj_dialog', {city_id: city.id, pnj_id: pnj.id, quest_id: quest.id}) }}"
+                                class="btn btn-primary"
+                                hx-target="#dialog"
+                            >{{ quest.name }}</div>
+                        {% endfor %}
                     </div>
                 </div>
             {% endfor %}
@@ -38,7 +45,7 @@
             >Sortir</a>
         </div>
         <div class="col">
-            <div class="" id=""></div>
+            <div class="" id="dialog"></div>
         </div>
     </div>
 </div>

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PnjRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PnjRepository::class)]
@@ -25,6 +27,14 @@ class Pnj
 
     #[ORM\ManyToOne(inversedBy: 'pnjs')]
     private ?Job $job = null;
+
+    #[ORM\OneToMany(mappedBy: 'pnj', targetEntity: Quest::class)]
+    private Collection $quests;
+
+    public function __construct()
+    {
+        $this->quests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +85,36 @@ class Pnj
     public function setJob(?Job $job): self
     {
         $this->job = $job;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): self
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+            $quest->setPnj($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): self
+    {
+        if ($this->quests->removeElement($quest)) {
+            // set the owning side to null (unless already changed)
+            if ($quest->getPnj() === $this) {
+                $quest->setPnj(null);
+            }
+        }
 
         return $this;
     }

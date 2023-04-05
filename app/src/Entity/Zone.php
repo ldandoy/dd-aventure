@@ -24,10 +24,14 @@ class Zone
     #[ORM\OneToMany(mappedBy: 'zone', targetEntity: Perso::class)]
     private Collection $persos;
 
+    #[ORM\OneToMany(mappedBy: 'zone', targetEntity: Place::class)]
+    private Collection $places;
+
     public function __construct()
     {
         $this->cities = new ArrayCollection();
         $this->persos = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +105,36 @@ class Zone
             // set the owning side to null (unless already changed)
             if ($perso->getZone() === $this) {
                 $perso->setZone(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+            $place->setZone($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->removeElement($place)) {
+            // set the owning side to null (unless already changed)
+            if ($place->getZone() === $this) {
+                $place->setZone(null);
             }
         }
 
