@@ -11,36 +11,45 @@
         </div>
     </div>
     
-    <div class="container">
-        {% for zone in zones %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Zone {{ zone.id }} : {{ zone.name }}</h5>
-
-                    {% for city in zone.cities %}
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="{{ path('app_city_index', {id: city.id}) }}">{{ city.name }}</a>
-                                </h5>
-                                <ul>
-                                    {% for place in city.places %}
-                                        <li>{{ place.name }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    {% endfor %}
-
-                    <ul>
-                        {% for place in zone.places %}
-                            {% if place.city == null %}
-                                <li>{{ place.name }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+    <div class="container{% if perso %}-fluid{% endif %}">
+        <div class="row">
+            {% if perso %}
+                <div class="col-2">
+                    {{ include('shared/_perso.html.twig') }}
                 </div>
+            {% endif %}
+            <div class="col">
+                {% for zone in zones %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Zone {{ zone.id }} : {{ zone.name }}</h5>
+
+                            {% for city in zone.cities %}
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="{{ path('app_city_show', {city_id: city.id}) }}">{{ city.name }}</a>
+                                        </h5>
+                                        <ul>
+                                            {% for place in city.places %}
+                                                <li>{{ place.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <ul>
+                                {% for place in zone.places %}
+                                    {% if place.city == null %}
+                                        <li><a href="{{ path('app_place_show', {place_id: place.id}) }}">{{ place.name }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}

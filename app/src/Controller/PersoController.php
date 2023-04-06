@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Perso;
 use App\Entity\Place;
+use App\Entity\Quest;
 use App\Form\PersoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 
 #[IsGranted('ROLE_USER')]
@@ -125,5 +127,29 @@ class PersoController extends AbstractController
         );
 
         return $this->redirectToRoute('app_perso_index');
+    }
+
+    #[Route('/persos/{perso_id}/quests', name: 'app_perso_quests')]
+    #[Entity('perso', options: ['id' => 'perso_id'])]
+    public function quests(
+        Perso $perso, 
+        EntityManagerInterface $em,
+        Request $request
+    ): Response
+    {
+
+        if ($perso->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('app_perso_index');
+        }
+
+        $quests = $em->getRepository(Quest::class)->findAll();
+
+        $session = $request->getSession();
+        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
+
+        return $this->render('perso/quests.html.twig', [
+            'quests'    => $quests,
+            'perso'     => $perso
+        ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
@@ -33,11 +34,18 @@ class Place
     #[ORM\ManyToOne(inversedBy: 'places')]
     private ?Zone $zone = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'place', targetEntity: PlaceStory::class, orphanRemoval: true)]
+    private Collection $placeStories;
+
     public function __construct()
     {
         $this->pnjs = new ArrayCollection();
         $this->persos = new ArrayCollection();
         $this->quests = new ArrayCollection();
+        $this->placeStories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +175,48 @@ class Place
     public function setZone(?Zone $zone): self
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlaceStory>
+     */
+    public function getPlaceStories(): Collection
+    {
+        return $this->placeStories;
+    }
+
+    public function addPlaceStory(PlaceStory $placeStory): self
+    {
+        if (!$this->placeStories->contains($placeStory)) {
+            $this->placeStories->add($placeStory);
+            $placeStory->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaceStory(PlaceStory $placeStory): self
+    {
+        if ($this->placeStories->removeElement($placeStory)) {
+            // set the owning side to null (unless already changed)
+            if ($placeStory->getPlace() === $this) {
+                $placeStory->setPlace(null);
+            }
+        }
 
         return $this;
     }

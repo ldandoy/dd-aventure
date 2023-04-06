@@ -1,14 +1,14 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col">
             {% for pnj in place.pnjs %}
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">{{ pnj.name }}</h5>
+                        <h5 class="card-title">{{ pnj.name }} (<span>{{ pnj.job.name }}</span>)</h5>
                         {% for quest in pnj.quests %}
                             <div 
                                 hx-trigger="click" 
-                                hx-get="{{ path('app_partiel_aventure_city_pnj_dialog', {city_id: city.id, pnj_id: pnj.id, quest_id: quest.id}) }}"
+                                hx-get="{{ path('app_partiel_city_place_quest', {city_id: city.id, place_id: place.id, quest_id: quest.id}) }}"
                                 class="btn btn-primary"
                                 hx-target="#dialog"
                             >{{ quest.name }}</div>
@@ -16,15 +16,20 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div class="col">
+            <div id="dialog"></div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col">
             <a 
                 hx-trigger="click" 
                 hx-get="{{ path('app_partiel_city_show', {city_id: city.id}) }}"
                 class="btn btn-secondary" 
                 aria-current="page"
-            >Sortir</a>
-        </div>
-        <div class="col">
+            >Quitter ce lieux</a>
         </div>
     </div>
 </div>

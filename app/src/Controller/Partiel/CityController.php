@@ -4,8 +4,11 @@ namespace App\Controller\Partiel;
 
 use App\Entity\Place;
 use App\Entity\City;
+use App\Entity\Quest;
+use App\Entity\Perso;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +39,23 @@ class CityController extends AbstractController
         return $this->render('partiel/city/place.html.twig', [
             'city'  => $city,
             'place' => $place,
+        ]);
+    }
+
+    #[Route('/partiel/city/{city_id}/place/{place_id}/quest/{quest_id}', name: 'app_partiel_city_place_quest')]
+    #[Entity('city', options: ['id' => 'city_id'])]
+    #[Entity('place', options: ['id' => 'place_id'])]
+    #[Entity('quest', options: ['id' => 'quest_id'])]
+    public function quest(City $city, Place $place, Quest $quest, Request $request, EntityManagerInterface $em): Response
+    {
+        $session = $request->getSession();
+        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
+
+        return $this->render('partiel/city/quest.html.twig', [
+            'city'  => $city,
+            'place' => $place,
+            'quest' => $quest,
+            'perso' => $perso
         ]);
     }
 }
