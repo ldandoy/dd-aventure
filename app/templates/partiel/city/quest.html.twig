@@ -1,0 +1,27 @@
+<b>{{ quest.name }}</b>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">{{ quest.questSteps[0].name }}</h5>
+        {{ quest.questSteps[0].description }}
+
+        <div class="mt-4 text-center">
+            {% if quest not in app.user.quests %}
+                <a 
+                    href="{{ path('app_quest_accept', {quest_id: quest.id}) }}"
+                    class="btn btn-success"
+                >Accepter</a>
+                <a 
+                    href="{{ path('app_quest_decline', {quest_id: quest.id}) }}"
+                    class="btn btn-danger"
+                >Décliner</a>
+            {% endif %}
+            {% if quest in app.user.quests %}
+                <a 
+                    href="{{ path('app_quest_decline', {quest_id: quest.id}) }}"
+                    class="btn btn-danger"
+                >Abonner</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

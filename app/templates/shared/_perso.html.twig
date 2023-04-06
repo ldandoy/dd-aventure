@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            {{ perso.name }}
+        </h5>
+        <div><b>Force</b>: {{ perso.puissance }}</div>
+        <div><b>Vitesse</b>: {{ perso.vitesse }}</div>
+        <div><b>Point de vie</b>: {{ perso.pdv }}</div>
+        <div><b>Dextérité</b>: {{ perso.dexterite }}</div>
+        <div><b>Charisme</b>: {{ perso.charisme }}</div>
+        <div><b>Intellignce</b>: {{ perso.intelligence }}</div>
+        <div><b>Constitution</b>: {{ perso.constitution }}</div>
+        <div><b>Sagesse</b>: {{ perso.sagesse }}</div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">
+            Actions
+        </h5>
+        <ul>
+            <li><a href="">Inventaire</a></li>
+            <li><a href="{{path('app_perso_quests', {perso_id: perso.id})}}">Quêtes</a></li>
+        </ul>
+    </div>
+</div>

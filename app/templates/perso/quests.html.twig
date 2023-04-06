@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de toutes vos quêtes en cours{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Liste des quêtes</h1>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                {{ include('shared/_perso.html.twig') }}
+            </div>
+            <div class="col-10">
+                {% if quests|length > 0 %}
+                    <div class="accordion" id="accordionExample">
+                        {% for quest in quests %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    {{ quest.name }}
+                                </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for step in quest.questSteps %}
+                                        <p>
+                                            {{ step.name }}
+                                        </p>
+                                        {{ step.description }}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">Vous n'avez pas de quêtes en cours</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

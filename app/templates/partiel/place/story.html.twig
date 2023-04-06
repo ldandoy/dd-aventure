@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ story.place.name }}</h5>
+
+        <p>{{ story.description }}</p>
+
+        <button
+            hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
+            hx-trigger="click"
+            hx-target="#story"
+            class="btn btn-success"
+        >
+            Poursuivre l'exploration
+        </button>
+
+        <a
+            href="{{ path('app_place_show', {place_id: place.id}) }}"
+            class="btn btn-secondary"
+        >
+            Revenir au camps
+        </a>
+    </div>
+</div>
