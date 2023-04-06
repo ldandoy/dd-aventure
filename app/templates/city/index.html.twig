@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Ville de {{ city.name }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="{{ path('app_map_index') }}">{{ city.zone.name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ city.name }}
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <div id="city" hx-get="{{ path('app_partiel_city_show', {city_id: city.id}) }}" hx-trigger="load" hx-target="#city"></div>
+{% endblock %}

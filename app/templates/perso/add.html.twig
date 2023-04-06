@@ -3,6 +3,17 @@
 {% block title %}Création d'un personnages{% endblock %}
 
 {% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Liste des personnages</h1>
+                <div>
+                    <a href="{{ path('app_perso_add') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Créer un personnage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="d-flex justify-content-between">
             <h1>Création d'un personnages</h1>

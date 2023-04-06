@@ -22,6 +22,7 @@ class PersoController extends AbstractController
         $persos = $em->getRepository(Perso::class)->findBy([
             'user' => $this->getUser()
         ]);
+        
         return $this->render('perso/index.html.twig', [
             'persos' => $persos
         ]);

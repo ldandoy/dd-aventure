@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {% for place in places %}
+                {% if place.city != null %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ place.name }}</h5>
+                            <div
+                                hx-trigger="click" 
+                                hx-get="{{ path('app_partiel_city_place', {city_id: city.id, place_id: place.id}) }}"
+                                class="btn btn-success"
+                            >Entrer</div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+

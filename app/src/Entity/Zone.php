@@ -27,6 +27,9 @@ class Zone
     #[ORM\OneToMany(mappedBy: 'zone', targetEntity: Place::class)]
     private Collection $places;
 
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
+    private ?bool $active = false;
+
     public function __construct()
     {
         $this->cities = new ArrayCollection();
@@ -137,6 +140,18 @@ class Zone
                 $place->setZone(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
