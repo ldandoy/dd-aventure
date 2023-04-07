@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -61,6 +63,14 @@ class Perso
 
     #[ORM\Column]
     private ?int $sagesse = null;
+
+    #[ORM\OneToMany(mappedBy: 'perso', targetEntity: PersoItem::class)]
+    private Collection $persoItems;
+
+    public function __construct()
+    {
+        $this->persoItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +215,36 @@ class Perso
     public function setSagesse(int $sagesse): self
     {
         $this->sagesse = $sagesse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersoItem>
+     */
+    public function getPersoItems(): Collection
+    {
+        return $this->persoItems;
+    }
+
+    public function addPersoItem(PersoItem $persoItem): self
+    {
+        if (!$this->persoItems->contains($persoItem)) {
+            $this->persoItems->add($persoItem);
+            $persoItem->setPerso($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersoItem(PersoItem $persoItem): self
+    {
+        if ($this->persoItems->removeElement($persoItem)) {
+            // set the owning side to null (unless already changed)
+            if ($persoItem->getPerso() === $this) {
+                $persoItem->setPerso(null);
+            }
+        }
 
         return $this;
     }

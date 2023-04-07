@@ -1,23 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_login.html.twig' %}
 
 {% block title %}Création de votre compte{% endblock %}
 
 {% block body %}
-    {{ form_start(registrationForm, {'attr': {'class': 'w-50 mx-auto'}}) }}
+    {{ form_start(registrationForm, {'attr': {'class': 'mx-auto'}}) }}
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
         {% endfor %}
 
-        <h1>Register</h1>
+        <h1 class="h3 mb-5 font-weight-normal text-center">Créez votre compte</h1>
         
         {{ form_row(registrationForm.email) }}
+        
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'Mot de passe'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
-        <div>
+        {{ form_row(registrationForm.agreeTerms, {
+            label: 'Acceptez les conditions d\'utilisation'
+        }) }}
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Créer le compte</button>
+        </div>
+
+        <div class="text-center">
             <a href="/login" class="btn">Déjà un compte ?</a>
         </div>
     {{ form_end(registrationForm) }}

@@ -2,22 +2,43 @@
     <div class="card-body">
         <h5 class="card-title">{{ story.place.name }}</h5>
 
-        <p>{{ story.description }}</p>
+        {{ include('shared/_alert.html.twig') }}
 
-        <button
-            hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
-            hx-trigger="click"
-            hx-target="#story"
-            class="btn btn-success"
-        >
-            Poursuivre l'exploration
-        </button>
+        <p>{{ story.description | raw }}</p>
 
-        <a
-            href="{{ path('app_place_show', {place_id: place.id}) }}"
-            class="btn btn-secondary"
-        >
-            Revenir au camps
-        </a>
+        {% if story.type.id == 5 %}
+            <div class="mb-3">
+                Vous avez trouvez: {{ item.name }}
+            </div>
+        {% endif %}
+
+        <div class="mb-3 text-center">
+            {% if story.type.id == 5 %}
+                <button
+                    hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
+                    hx-trigger="click"
+                    hx-target="#story"
+                    class="btn btn-success"
+                >
+                    Poursuivre l'exploration en l'emportant avec vous
+                </button>
+            {% endif %}
+
+            <button
+                hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
+                hx-trigger="click"
+                hx-target="#story"
+                class="btn btn-success"
+            >
+                Poursuivre l'exploration
+            </button>
+
+            <a
+                href="{{ path('app_place_show', {place_id: place.id}) }}"
+                class="btn btn-secondary"
+            >
+                Revenir au camps
+            </a>
+        </div>
     </div>
 </div>

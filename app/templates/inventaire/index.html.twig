@@ -6,7 +6,7 @@
     <div class="top">
         <div class="container">
             <div class="d-flex justify-content-between">
-                <h1>Carte du monde</h1>
+                <h1>Inventaire de {{ perso.name }}</h1>
             </div>
         </div>
     </div>
@@ -19,13 +19,32 @@
                 </div>
             {% endif %}
             <div class="col">
-                {% for item in perso.items %}
-                    <div class="cart">
-                        <div class="cart-body">
-                            <h5 class="body-title">{{ item.name }}</h5>
-                        </div>
-                    </div>
-                {% endfor %}
+                {{ include('shared/_alert.html.twig') }}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Qte</th>
+                            <th width="75%">Nom</th>
+                            <th>Poids</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for persoItem in perso.persoItems %}
+                            <tr>
+                                <td><i class="fa-solid {{ persoItem.item.icon }}"></i></td>
+                                <td>{{ persoItem.qte }}</td>
+                                <td>{{ persoItem.item.name }}</td>
+                                <td>{{ persoItem.qte * persoItem.item.weight }}</td>
+                                <td>
+                                    <a href="{{ path('app_inventaire_remove', {item_id: persoItem.item.id}) }}" class="btn btn-danger"><i class="fa-solid fa-download"></i> Déposer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

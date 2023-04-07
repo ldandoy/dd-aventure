@@ -6,6 +6,7 @@
 
 @import 'params';
 @import 'box';
+@import 'auth';
 
 * {
     padding: 0;
@@ -17,6 +18,7 @@
     height: 100vh;
     background: url('/public/img/banniere.png');
     background-size: cover;
+    background-position: top center;
 }
 
 .top {

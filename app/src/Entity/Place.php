@@ -40,12 +40,16 @@ class Place
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: PlaceStory::class, orphanRemoval: true)]
     private Collection $placeStories;
 
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'places')]
+    private Collection $items;
+
     public function __construct()
     {
         $this->pnjs = new ArrayCollection();
         $this->persos = new ArrayCollection();
         $this->quests = new ArrayCollection();
         $this->placeStories = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,6 +220,33 @@ class Place
             if ($placeStory->getPlace() === $this) {
                 $placeStory->setPlace(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Item>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->addPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            $item->removePlace($this);
         }
 
         return $this;

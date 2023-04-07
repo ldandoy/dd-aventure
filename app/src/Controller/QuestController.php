@@ -31,7 +31,7 @@ class QuestController extends AbstractController
         $session = $request->getSession();
         $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
 
-        return $this->redirectToRoute('app_city_index', ['city_id' => $perso->getPlace()->getCity()->getId()]);
+        return $this->redirectToRoute('app_city_show', ['city_id' => $perso->getPlace()->getCity()->getId()]);
     }
 
     #[Route('/quest/{quest_id}/decline', name: 'app_quest_decline')]
@@ -52,6 +52,6 @@ class QuestController extends AbstractController
         $session = $request->getSession();
         $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
 
-        return $this->redirectToRoute('app_city_index', ['city_id' => $perso->getPlace()->getCity()->getId()]);
+        return $this->redirectToRoute('app_city_show', ['city_id' => $perso->getPlace()->getCity()->getId()]);
     }
 }

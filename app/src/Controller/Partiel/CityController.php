@@ -19,13 +19,13 @@ class CityController extends AbstractController
 {
     #[Route('/partiel/city/{city_id}', name: 'app_partiel_city_show')]
     #[Entity('city', options: ['id' => 'city_id'])]
-    public function index(City $city, EntityManagerInterface $em): Response
+    public function show(City $city, EntityManagerInterface $em): Response
     {
         $places = $em->getRepository(Place::class)->findBy([
             'city' => $city
         ]);
 
-        return $this->render('partiel/city/index.html.twig', [
+        return $this->render('partiel/city/show.html.twig', [
             'places' => $places,
             'city' => $city
         ]);

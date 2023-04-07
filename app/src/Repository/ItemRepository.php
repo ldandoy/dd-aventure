@@ -39,6 +39,19 @@ class ItemRepository extends ServiceEntityRepository
         }
     }
 
+    public function getRandItem($place): ?Item
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.places', 'p')
+            ->andWhere('p.id = :place_id')
+            ->setParameter('place_id', $place->getId())
+            ->orderBy('RAND()')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Item[] Returns an array of Item objects
 //     */

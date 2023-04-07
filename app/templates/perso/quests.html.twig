@@ -33,7 +33,15 @@
                                         <p>
                                             {{ step.name }}
                                         </p>
-                                        {{ step.description }}
+                                        <p>{{ step.description }}</p>
+                                        <p>
+                                            <a 
+                                                href="{{ path('app_place_show', {place_id: quest.place.id}) }}"
+                                                class="btn btn-success"
+                                            >Reprendre la quête</a>
+
+                                            <a href="{{ path('app_quest_decline', {quest_id: quest.id }) }}" class="btn btn-danger">Abandoner</a>
+                                        </p>
                                     {% endfor %}
                                 </div>
                                 </div>

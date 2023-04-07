@@ -5,6 +5,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">{{ pnj.name }} (<span>{{ pnj.job.name }}</span>)</h5>
+                        <p>Quête(s) disponible(s):</p>
                         {% for quest in pnj.quests %}
                             <div 
                                 hx-trigger="click" 

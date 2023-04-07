@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\PlaceStory;
+use App\Entity\PersoItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PlaceStory>
+ * @extends ServiceEntityRepository<PersoItem>
  *
- * @method PlaceStory|null find($id, $lockMode = null, $lockVersion = null)
- * @method PlaceStory|null findOneBy(array $criteria, array $orderBy = null)
- * @method PlaceStory[]    findAll()
- * @method PlaceStory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PersoItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PersoItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PersoItem[]    findAll()
+ * @method PersoItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlaceStoryRepository extends ServiceEntityRepository
+class PersoItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PlaceStory::class);
+        parent::__construct($registry, PersoItem::class);
     }
 
-    public function save(PlaceStory $entity, bool $flush = false): void
+    public function save(PersoItem $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PlaceStoryRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(PlaceStory $entity, bool $flush = false): void
+    public function remove(PersoItem $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,20 +39,8 @@ class PlaceStoryRepository extends ServiceEntityRepository
         }
     }
 
-    public function getRandStory($place): ?PlaceStory
-    {
-        return $this->createQueryBuilder('ps')
-            ->andWhere('ps.place = :place_id')
-            ->setParameter('place_id', $place->getId())
-            ->setMaxResults(1)
-            ->orderBy('RAND()')
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
 //    /**
-//     * @return PlaceStory[] Returns an array of PlaceStory objects
+//     * @return PersoItem[] Returns an array of PersoItem objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -66,7 +54,7 @@ class PlaceStoryRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?PlaceStory
+//    public function findOneBySomeField($value): ?PersoItem
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

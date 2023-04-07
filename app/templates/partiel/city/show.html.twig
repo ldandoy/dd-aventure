@@ -1,8 +1,19 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            {% for place in places %}
-                {% if place.city != null %}
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Oyé Oyé ! Approchez vous que je vous présente cette belle ville !</h5>
+                    <p>{{ city.description|raw }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-between">
+        {% for place in places %}
+            {% if place.city != null %}
+                <div class="col col-3">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">{{ place.name }}</h5>
@@ -13,10 +24,9 @@
                             >Entrer</div>
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col"></div>
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 </div>
 

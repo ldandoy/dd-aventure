@@ -8,19 +8,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Zone;
-use App\Entity\Perso;
+use App\Service\PersoService;
 
 class MapController extends AbstractController
 {
     #[Route('/map', name: 'app_map_index')]
-    public function index(EntityManagerInterface $em, Request $request): Response
+    public function index(EntityManagerInterface $em, PersoService $persoService): Response
     {
         $zones = $em->getRepository(Zone::class)->findBy([
             'active' => false
         ]);
 
-        $session = $request->getSession();
-        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
+        $perso = $persoService->getPerso();
         
         return $this->render('map/index.html.twig', [
             "zones" => $zones,

@@ -13,9 +13,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ path('app_perso_index') }}"><i class="fa-solid fa-users"></i> Persos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ path('app_map_index') }}"><i class="fa-solid fa-users"></i> Carte</a>
-                    </li>
+
+                    {% if app.session.has('perso')  %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ path('app_map_index') }}"><i class="fa-solid fa-map-location-dot"></i> Carte</a>
+                        </li>
+                    {% endif %}
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ path('app_login') }}"><i class="fa-solid fa-home"></i> Connexion</a>

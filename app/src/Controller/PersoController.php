@@ -6,6 +6,7 @@ use App\Entity\Perso;
 use App\Entity\Place;
 use App\Entity\Quest;
 use App\Form\PersoType;
+use App\Service\PersoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +20,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 class PersoController extends AbstractController
 {
     #[Route('/persos', name: 'app_perso_index')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(
+        PersoService $persoService
+    ): Response
     {
-        $persos = $em->getRepository(Perso::class)->findBy([
+        /*$persos = $em->getRepository(Perso::class)->findBy([
             'user' => $this->getUser()
-        ]);
+        ]);*/
+
+        $persos = $persoService->getUserPersos($this->getUser());
         
         return $this->render('perso/index.html.twig', [
             'persos' => $persos
@@ -132,9 +137,9 @@ class PersoController extends AbstractController
     #[Route('/persos/{perso_id}/quests', name: 'app_perso_quests')]
     #[Entity('perso', options: ['id' => 'perso_id'])]
     public function quests(
-        Perso $perso, 
+        Perso $perso,
         EntityManagerInterface $em,
-        Request $request
+        PersoService $persoService
     ): Response
     {
 
@@ -144,8 +149,7 @@ class PersoController extends AbstractController
 
         $quests = $em->getRepository(Quest::class)->findAll();
 
-        $session = $request->getSession();
-        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
+        $perso = $persoService->getPerso();
 
         return $this->render('perso/quests.html.twig', [
             'quests'    => $quests,

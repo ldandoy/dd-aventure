@@ -22,14 +22,21 @@ class Item
     private ?int $price = null;
 
     #[ORM\Column]
-    private ?int $weight = null;
+    private ?float $weight = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'items')]
-    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'items')]
+    private Collection $places;
+
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: PersoItem::class)]
+    private Collection $persoItems;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $icon = null;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->places = new ArrayCollection();
+        $this->persoItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,12 +68,12 @@ class Item
         return $this;
     }
 
-    public function getWeight(): ?int
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
 
-    public function setWeight(int $weight): self
+    public function setWeight(float $weight): self
     {
         $this->weight = $weight;
 
@@ -74,25 +81,67 @@ class Item
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Place>
      */
-    public function getUsers(): Collection
+    public function getPlaces(): Collection
     {
-        return $this->users;
+        return $this->places;
     }
 
-    public function addUser(User $user): self
+    public function addPlace(Place $place): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removePlace(Place $place): self
     {
-        $this->users->removeElement($user);
+        $this->places->removeElement($place);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersoItem>
+     */
+    public function getPersoItems(): Collection
+    {
+        return $this->persoItems;
+    }
+
+    public function addPersoItem(PersoItem $persoItem): self
+    {
+        if (!$this->persoItems->contains($persoItem)) {
+            $this->persoItems->add($persoItem);
+            $persoItem->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersoItem(PersoItem $persoItem): self
+    {
+        if ($this->persoItems->removeElement($persoItem)) {
+            // set the owning side to null (unless already changed)
+            if ($persoItem->getItem() === $this) {
+                $persoItem->setItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }
