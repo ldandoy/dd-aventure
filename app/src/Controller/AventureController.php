@@ -26,6 +26,6 @@ class AventureController extends AbstractController
             'perso' => $session->get('perso')
         ]);*/
 
-        return $this->redirectToRoute('app_city_index', ['city_id' => $city->getId()]);
+        return $this->redirectToRoute('app_city_show', ['city_id' => $city->getId()]);
     }
 }

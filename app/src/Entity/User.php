@@ -40,10 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Quest::class, inversedBy: 'users')]
     private Collection $quests;
 
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'users')]
+    private Collection $items;
+
     public function __construct()
     {
         $this->persos = new ArrayCollection();
         $this->quests = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +182,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeQuest(Quest $quest): self
     {
         $this->quests->removeElement($quest);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Item>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            $item->removeUser($this);
+        }
 
         return $this;
     }
