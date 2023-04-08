@@ -10,17 +10,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Quest;
 use App\Entity\Perso;
+use App\Service\PersoService;
 
 class QuestController extends AbstractController
 {
     #[Route('/quest/{quest_id}/accept', name: 'app_quest_accept')]
     #[Entity('quest', options: ['id' => 'quest_id'])]
-    public function accept(Quest $quest, Request $request, EntityManagerInterface $em): Response
+    public function accept(
+        Quest $quest,
+        EntityManagerInterface $em,
+        PersoService $persoService
+    ): Response
     {
-        $user = $this->getUser();
-        $user->addQuest($quest);
+        $perso = $persoService->getPerso();
+        $perso->addQuest($quest);
 
-        $em->persist($user);
+        $em->persist($perso);
         $em->flush();
 
         $this->addFlash(
@@ -28,29 +33,27 @@ class QuestController extends AbstractController
             'Quête accepté !'
         );
 
-        $session = $request->getSession();
-        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
-
         return $this->redirectToRoute('app_city_show', ['city_id' => $perso->getPlace()->getCity()->getId()]);
     }
 
     #[Route('/quest/{quest_id}/decline', name: 'app_quest_decline')]
     #[Entity('quest', options: ['id' => 'quest_id'])]
-    public function decline(Quest $quest, Request $request, EntityManagerInterface $em): Response
+    public function decline(
+        Quest $quest,
+        PersoService $persoService,
+        EntityManagerInterface $em
+    ): Response
     {
-        $user = $this->getUser();
-        $user->removeQuest($quest);
+        $perso = $persoService->getPerso();
+        $perso->removeQuest($quest);
 
-        $em->persist($user);
+        $em->persist($perso);
         $em->flush();
 
         $this->addFlash(
             'success',
             'Quête refusé !'
         );
-
-        $session = $request->getSession();
-        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
 
         return $this->redirectToRoute('app_city_show', ['city_id' => $perso->getPlace()->getCity()->getId()]);
     }

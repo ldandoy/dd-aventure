@@ -24,6 +24,12 @@ class PlaceStory
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $place = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $difficulty = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $skill = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +67,30 @@ class PlaceStory
     public function setPlace(?Place $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getDifficulty(): ?int
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(?int $difficulty): self
+    {
+        $this->difficulty = $difficulty;
+
+        return $this;
+    }
+
+    public function getSkill(): ?string
+    {
+        return $this->skill;
+    }
+
+    public function setSkill(?string $skill): self
+    {
+        $this->skill = $skill;
 
         return $this;
     }

@@ -18,9 +18,9 @@
                 {{ include('shared/_perso.html.twig') }}
             </div>
             <div class="col-10">
-                {% if quests|length > 0 %}
+                {% if perso.quests|length > 0 %}
                     <div class="accordion" id="accordionExample">
-                        {% for quest in quests %}
+                        {% for quest in perso.quests %}
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">

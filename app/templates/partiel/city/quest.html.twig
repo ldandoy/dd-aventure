@@ -4,7 +4,7 @@
         {{ quest.questSteps[0].description }}
 
         <div class="mt-4 text-center">
-            {% if quest not in app.user.quests %}
+            {% if quest not in app.session.get('perso').quests %}
                 <a 
                     href="{{ path('app_quest_accept', {quest_id: quest.id}) }}"
                     class="btn btn-success"
@@ -13,8 +13,7 @@
                     href="{{ path('app_quest_decline', {quest_id: quest.id}) }}"
                     class="btn btn-danger"
                 >Décliner</a>
-            {% endif %}
-            {% if quest in app.user.quests %}
+            {% else %}
                 <a 
                     href="{{ path('app_quest_decline', {quest_id: quest.id}) }}"
                     class="btn btn-danger"

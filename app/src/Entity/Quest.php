@@ -30,13 +30,13 @@ class Quest
     #[ORM\OneToMany(mappedBy: 'quest', targetEntity: QuestStep::class)]
     private Collection $questSteps;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'quests')]
-    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: Perso::class, mappedBy: 'quests')]
+    private Collection $persos;
 
     public function __construct()
     {
         $this->questSteps = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->persos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,27 +123,27 @@ class Quest
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Perso>
      */
-    public function getUsers(): Collection
+    public function getPersos(): Collection
     {
-        return $this->users;
+        return $this->persos;
     }
 
-    public function addUser(User $user): self
+    public function addPerso(Perso $perso): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addQuest($this);
+        if (!$this->persos->contains($perso)) {
+            $this->persos->add($perso);
+            $perso->addQuest($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removePerso(Perso $perso): self
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeQuest($this);
+        if ($this->persos->removeElement($perso)) {
+            $perso->removeQuest($this);
         }
 
         return $this;

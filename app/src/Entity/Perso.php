@@ -67,9 +67,13 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'perso', targetEntity: PersoItem::class)]
     private Collection $persoItems;
 
+    #[ORM\ManyToMany(targetEntity: Quest::class, inversedBy: 'persos')]
+    private Collection $quests;
+
     public function __construct()
     {
         $this->persoItems = new ArrayCollection();
+        $this->quests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,6 +249,30 @@ class Perso
                 $persoItem->setPerso(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): self
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): self
+    {
+        $this->quests->removeElement($quest);
 
         return $this;
     }

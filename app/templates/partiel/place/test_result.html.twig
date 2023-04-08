@@ -1,0 +1,48 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ story.place.name }}</h5>
+
+        {{ include('shared/_alert.html.twig') }}
+
+        <p>Test de {{ story.skill }} à {{ story.difficulty }}</p>
+
+        <p>Lancer de dé: {{ ddresult }}</p>
+
+        {% if ddresult > story.difficulty %}
+            Vous réussissez le test et ouvrez le coffre
+        {% else %}
+            Rien à faire vous n'arrivez pas à ouvrir le coffre
+        {% endif %}
+
+        {% if item %}
+            <div class="mb-3">
+                Vous avez trouvez: {{ item.name }}
+            </div>
+
+            <button
+                hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
+                hx-trigger="click"
+                hx-target="#story"
+                class="btn btn-success"
+            >
+                Poursuivre l'exploration en l'emportant avec vous
+            </button>
+        {% endif %}
+
+        <button
+            hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
+            hx-trigger="click"
+            hx-target="#story"
+            class="btn btn-success"
+        >
+            Poursuivre l'exploration
+        </button>
+
+        <a
+            href="{{ path('app_place_show', {place_id: place.id}) }}"
+            class="btn btn-secondary"
+        >
+            Revenir au camps
+        </a>
+    </div>
+</div>

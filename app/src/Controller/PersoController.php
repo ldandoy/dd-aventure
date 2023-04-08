@@ -147,12 +147,12 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('app_perso_index');
         }
 
-        $quests = $em->getRepository(Quest::class)->findAll();
+        // $quests = $em->getRepository(Quest::class)->findAll();
 
         $perso = $persoService->getPerso();
 
         return $this->render('perso/quests.html.twig', [
-            'quests'    => $quests,
+            // 'quests'    => $quests,
             'perso'     => $perso
         ]);
     }
