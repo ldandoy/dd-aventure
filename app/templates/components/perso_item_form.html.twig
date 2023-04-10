@@ -1,0 +1,14 @@
+{# templates/components/post_form.html.twig #}
+<div {{ attributes }}>
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+        {{ form_row(form.qte) }}
+        {{ form_row(form.perso) }}
+        {{ form_row(form.item) }}
+        <button>Save</button>
+    {{ form_end(form) }}
+</div>

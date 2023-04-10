@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Histoire et aventure{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Test Live component</h1>
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            {{ component('perso_item_form') }}
+        </div>
+        <div class="row mt-4">
+            {{ component('perso_item_list') }}
+        </div>
+    </div>
+{% endblock %}

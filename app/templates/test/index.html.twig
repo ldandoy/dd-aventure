@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Histoire et aventure{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>Test</h1>
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+
+        {{ component('alert', { 
+            message: 'Successfully created!',
+            title: "Test de titre"
+        }) }}
+
+        {{ component('alert', {
+            type: 'danger',
+            message: 'Danger Will Robinson!'
+        }) }}
+
+        <div {{ stimulus_controller('say-hello') }}>
+            <input type="text" {{ stimulus_target('say-hello', 'name') }}>
+
+            <button {{ stimulus_action('say-hello', 'greet') }}>
+                Greet
+            </button>
+
+            <div {{ stimulus_target('say-hello', 'output') }}></div>
+        </div>
+
+        <div data-controller="clipboard">
+            PIN: <input data-clipboard-target="source" type="text" value="1234" readonly>
+            <button data-action="clipboard#copy">>Copy to Clipboard</button>
+        </div>
+
+        <div data-controller="clipboard">
+            PIN: <input data-clipboard-target="source" type="text" value="3737" readonly>
+            <button data-action="clipboard#copy">Copy to Clipboard</button>
+        </div>
+
+        <div data-controller="clipboard">
+            PIN: <input data-clipboard-target="source" type="text" value="3737" readonly>
+            <a href="#" data-action="clipboard#copy">Copy to Clipboard</a>
+        </div>
+
+        <div data-controller="slideshow" data-slideshow-index-value="1">
+            <button data-action="slideshow#previous"> ← </button>
+            <button data-action="slideshow#next"> → </button>
+
+            <div data-slideshow-target="slide">🐵</div>
+            <div data-slideshow-target="slide">🙈</div>
+            <div data-slideshow-target="slide">🙉</div>
+            <div data-slideshow-target="slide">🙊</div>
+        </div>
+
+        <div data-controller="content-loader" data-content-loader-url-value="/test2">
+            <a href="#" data-content-loader-url-param="/test2" data-action="content-loader#load">Test 2</a>
+            <a href="#" data-content-loader-url-param="/test3" data-action="content-loader#load">Test 3</a>
+        </div>
+    </div>
+{% endblock %}

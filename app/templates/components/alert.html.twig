@@ -1,0 +1,8 @@
+{# templates/components/alert.html.twig #}
+<div class="alert alert-{{ this.type }}" role="alert">
+    {% if this.title is not null %}
+        <h4 class="alert-heading">{{ this.title }}</h4>
+    {% endif %}
+
+    {{ this.message }}
+</div>

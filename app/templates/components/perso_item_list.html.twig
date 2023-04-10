@@ -1,0 +1,19 @@
+<div {{ attributes }}>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>qte</th>
+                <th>Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for persoItem in this.persoItems %}
+                <tr>
+                    <td>
+                        {{ persoItem.qte }} {{ persoItem.item.name }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
