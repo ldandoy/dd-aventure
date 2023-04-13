@@ -33,10 +33,14 @@ class Item
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $icon = null;
 
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Quest::class)]
+    private Collection $quests;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
         $this->persoItems = new ArrayCollection();
+        $this->quests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +146,36 @@ class Item
     public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): self
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+            $quest->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): self
+    {
+        if ($this->quests->removeElement($quest)) {
+            // set the owning side to null (unless already changed)
+            if ($quest->getItem() === $this) {
+                $quest->setItem(null);
+            }
+        }
 
         return $this;
     }

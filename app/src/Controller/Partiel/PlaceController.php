@@ -7,11 +7,11 @@ use App\Entity\Item;
 use App\Entity\PlaceStory;
 use App\Service\PersoService;
 use App\Service\ItemService;
+use App\Service\PlaceStoryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 #[IsGranted('ROLE_USER')]
@@ -21,14 +21,14 @@ class PlaceController extends AbstractController
     #[Entity('place', options: ['id' => 'place_id'])]
     public function story(
         Place $place, 
-        EntityManagerInterface $em,
         PersoService $persoService,
-        ItemService $itemService
+        ItemService $itemService,
+        PlaceStoryService $placeStoryService
     ): Response
     {
         $perso = $persoService->getPerso();
 
-        $story = $em->getRepository(PlaceStory::class)->getRandStory($place);
+        $story = $placeStoryService->getRandPlaceStory($place);
 
         $item = $itemService->getRandItem($place);
 
@@ -84,27 +84,22 @@ class PlaceController extends AbstractController
     public function result(
         Place $place,
         PlaceStory $story,
-        PersoService $persoService,
-        ItemService $itemService
+        PersoService $persoService
     ): Response
     {
         $perso = $persoService->getPerso();
 
         $ddreuslt = random_int(0, 20);
 
-        $found = random_int(0, 20);
-        $item = null;
-
-        if ($found > 15) {
-            $item = $itemService->getRandItem($place);
+        if ($ddreuslt > $story->getPlaceTest()->getDifficulty()) {
+            $persoService->addXP($perso, $story->getPlaceTest()->getXp());
         }
 
         return $this->render('partiel/place/test_result.html.twig', [
             'perso'     => $perso,
             'place'     => $place,
             'story'     => $story,
-            'ddresult'  => $ddreuslt,
-            'item'      => $item
+            'ddresult'  => $ddreuslt
         ]);
     }
 }

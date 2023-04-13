@@ -4,7 +4,7 @@
 
         {{ include('shared/_alert.html.twig') }}
 
-        <p>Test de {{ story.skill }} à {{ story.difficulty }}</p>
+        <p>Test de {{ story.placeTest.skill }} vosu devez faire plus {{ story.placeTest.difficulty }}.</p>
 
         <p><button
             hx-get="{{ path('app_partiel_place_test_result', {place_id: place.id, story_id: story.id}) }}"

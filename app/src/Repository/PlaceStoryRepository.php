@@ -43,7 +43,9 @@ class PlaceStoryRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('ps')
             ->andWhere('ps.place = :place_id')
+            ->andWhere('ps.active = :active')
             ->setParameter('place_id', $place->getId())
+            ->setParameter('active', true)
             ->setMaxResults(1)
             ->orderBy('RAND()')
             ->getQuery()

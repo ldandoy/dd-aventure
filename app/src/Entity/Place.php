@@ -43,6 +43,9 @@ class Place
     #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'places')]
     private Collection $items;
 
+    #[ORM\OneToMany(mappedBy: 'place', targetEntity: PlaceTest::class)]
+    private Collection $placeTests;
+
     public function __construct()
     {
         $this->pnjs = new ArrayCollection();
@@ -50,6 +53,7 @@ class Place
         $this->quests = new ArrayCollection();
         $this->placeStories = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->placeTests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -247,6 +251,36 @@ class Place
     {
         if ($this->items->removeElement($item)) {
             $item->removePlace($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlaceTest>
+     */
+    public function getPlaceTests(): Collection
+    {
+        return $this->placeTests;
+    }
+
+    public function addPlaceTest(PlaceTest $placeTest): self
+    {
+        if (!$this->placeTests->contains($placeTest)) {
+            $this->placeTests->add($placeTest);
+            $placeTest->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaceTest(PlaceTest $placeTest): self
+    {
+        if ($this->placeTests->removeElement($placeTest)) {
+            // set the owning side to null (unless already changed)
+            if ($placeTest->getPlace() === $this) {
+                $placeTest->setPlace(null);
+            }
         }
 
         return $this;

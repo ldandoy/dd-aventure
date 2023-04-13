@@ -4,39 +4,27 @@
 
         {{ include('shared/_alert.html.twig') }}
 
-        <p>Test de {{ story.skill }} à {{ story.difficulty }}</p>
+        <p>Test de {{ story.placeTest.skill }} à {{ story.placeTest.difficulty }}</p>
 
         <p>Lancer de dé: {{ ddresult }}</p>
 
-        {% if ddresult > story.difficulty %}
-            Vous réussissez le test et ouvrez le coffre
-        {% else %}
-            Rien à faire vous n'arrivez pas à ouvrir le coffre
-        {% endif %}
-
-        {% if item %}
+        {% if ddresult > story.placeTest.difficulty %}
+            <p>{{ story.placeTest.textSuccessed }}</p>
             <div class="mb-3">
-                Vous avez trouvez: {{ item.name }}
+                Vous avez gagné: {{ story.placeTest.xp }} points d'XP
             </div>
-
-            <button
-                hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
-                hx-trigger="click"
-                hx-target="#story"
-                class="btn btn-success"
-            >
-                Poursuivre l'exploration en l'emportant avec vous
-            </button>
+        {% else %}
+            <p>{{ story.placeTest.textFailed }}</p>
         {% endif %}
 
-        <button
-            hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
+        <a
+            href="{{ path('app_place_story', {place_id: place.id}) }}"
             hx-trigger="click"
             hx-target="#story"
             class="btn btn-success"
         >
             Poursuivre l'exploration
-        </button>
+        </a>
 
         <a
             href="{{ path('app_place_show', {place_id: place.id}) }}"

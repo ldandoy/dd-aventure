@@ -24,11 +24,11 @@ class PlaceStory
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $place = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $difficulty = null;
+    #[ORM\OneToOne(mappedBy: 'place_story', cascade: ['persist', 'remove'])]
+    private ?PlaceTest $placeTest = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $skill = null;
+    #[ORM\Column(options: ["default" => false])]
+    private ?bool $active = false;
 
     public function getId(): ?int
     {
@@ -71,26 +71,31 @@ class PlaceStory
         return $this;
     }
 
-    public function getDifficulty(): ?int
+    public function getPlaceTest(): ?PlaceTest
     {
-        return $this->difficulty;
+        return $this->placeTest;
     }
 
-    public function setDifficulty(?int $difficulty): self
+    public function setPlaceTest(PlaceTest $placeTest): self
     {
-        $this->difficulty = $difficulty;
+        // set the owning side of the relation if necessary
+        if ($placeTest->getPlaceStory() !== $this) {
+            $placeTest->setPlaceStory($this);
+        }
+
+        $this->place_test = $place_test;
 
         return $this;
     }
 
-    public function getSkill(): ?string
+    public function isActive(): ?bool
     {
-        return $this->skill;
+        return $this->active;
     }
 
-    public function setSkill(?string $skill): self
+    public function setActive(bool $active): self
     {
-        $this->skill = $skill;
+        $this->active = $active;
 
         return $this;
     }

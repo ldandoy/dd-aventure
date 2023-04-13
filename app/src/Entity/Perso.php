@@ -70,6 +70,12 @@ class Perso
     #[ORM\ManyToMany(targetEntity: Quest::class, inversedBy: 'persos')]
     private Collection $quests;
 
+    #[ORM\ManyToOne(inversedBy: 'persos')]
+    private ?Race $race = null;
+
+    #[ORM\Column]
+    private ?int $xp = null;
+
     public function __construct()
     {
         $this->persoItems = new ArrayCollection();
@@ -273,6 +279,30 @@ class Perso
     public function removeQuest(Quest $quest): self
     {
         $this->quests->removeElement($quest);
+
+        return $this;
+    }
+
+    public function getRace(): ?Race
+    {
+        return $this->race;
+    }
+
+    public function setRace(?Race $race): self
+    {
+        $this->race = $race;
+
+        return $this;
+    }
+
+    public function getXp(): ?int
+    {
+        return $this->xp;
+    }
+
+    public function setXp(int $xp): self
+    {
+        $this->xp = $xp;
 
         return $this;
     }

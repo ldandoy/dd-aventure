@@ -84,4 +84,18 @@
             
             $this->em->flush();
         }
+
+        public function addXP(Perso $perso, int $xp): void
+        {
+            $request = $this->requestStack->getCurrentRequest();
+            $session = $request->getSession();
+            
+            $perso = $this->getPerso();
+            $perso->setXp($perso->getXp() + $xp);
+            
+            $this->em->persist($perso);
+            $this->em->flush();
+
+            $session->set('perso', $perso);
+        }
     }

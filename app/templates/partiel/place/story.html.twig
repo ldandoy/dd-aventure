@@ -1,55 +1,68 @@
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ story.place.name }}</h5>
+        {% if story is not null %}
+            <h5 class="card-title">{{ story.place.name }}</h5>
 
-        {{ include('shared/_alert.html.twig') }}
+            {{ include('shared/_alert.html.twig') }}
 
-        <p>{{ story.description | raw }}</p>
-
-        {% if story.type.id == 5 %}
-            <div class="mb-3">
-                Vous avez trouvez: {{ item.name }}
-            </div>
-        {% endif %}
-
-        <div class="mb-3 text-center">
-            {% if story.type.id == 2 %}
-                <button
-                    hx-get="{{ path('app_partiel_place_test', {place_id: place.id, story_id: story.id}) }}"
-                    hx-trigger="click"
-                    hx-target="#story"
-                    class="btn btn-success"
-                >
-                    Tenter de crocheter la serrure
-                </button>
-            {% endif %}
+            <p>{{ story.description | raw }}</p>
 
             {% if story.type.id == 5 %}
+                <div class="mb-3">
+                    Vous avez trouvez: {{ item.name }}
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+                {% if story.type.id == 2 %}
+                    <p>{{ story.placeTest.description | raw }}</p>
+                    <button
+                        hx-get="{{ path('app_partiel_place_test', {place_id: place.id, story_id: story.id}) }}"
+                        hx-trigger="click"
+                        hx-target="#story"
+                        class="btn btn-success"
+                    >
+                        {{ story.placeTest.action }}
+                    </button>
+                {% endif %}
+
+                {% if story.type.id == 5 %}
+                    <button
+                        hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
+                        hx-trigger="click"
+                        hx-target="#story"
+                        class="btn btn-success"
+                    >
+                        Poursuivre l'exploration en l'emportant avec vous
+                    </button>
+                {% endif %}
+
                 <button
-                    hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
+                    hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
                     hx-trigger="click"
                     hx-target="#story"
                     class="btn btn-success"
                 >
-                    Poursuivre l'exploration en l'emportant avec vous
+                    Poursuivre l'exploration
                 </button>
-            {% endif %}
 
-            <button
-                hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
-                hx-trigger="click"
-                hx-target="#story"
-                class="btn btn-success"
-            >
-                Poursuivre l'exploration
-            </button>
-
-            <a
-                href="{{ path('app_place_show', {place_id: place.id}) }}"
-                class="btn btn-secondary"
-            >
-                Revenir au camps
-            </a>
-        </div>
+                <a
+                    href="{{ path('app_place_show', {place_id: place.id}) }}"
+                    class="btn btn-secondary"
+                >
+                    Revenir au camps
+                </a>
+            </div>
+        {% else %}
+            <div>Partie de l'histoire manquante</div>
+            <div class="mt-4">
+                <a
+                    href="{{ path('app_place_show', {place_id: place.id}) }}"
+                    class="btn btn-secondary"
+                >
+                    Revenir au camps
+                </a>
+            </div>
+        {% endif %}
     </div>
 </div>

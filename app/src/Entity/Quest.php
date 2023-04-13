@@ -33,6 +33,12 @@ class Quest
     #[ORM\ManyToMany(targetEntity: Perso::class, mappedBy: 'quests')]
     private Collection $persos;
 
+    #[ORM\ManyToOne(inversedBy: 'quests')]
+    private ?Item $item = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $total = null;
+
     public function __construct()
     {
         $this->questSteps = new ArrayCollection();
@@ -145,6 +151,30 @@ class Quest
         if ($this->persos->removeElement($perso)) {
             $perso->removeQuest($this);
         }
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
+    }
+
+    public function setItem(?Item $item): self
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?int $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

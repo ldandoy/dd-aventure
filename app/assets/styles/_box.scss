@@ -1,4 +1,9 @@
 .box {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid lightgray;
+
     .title {
         display: flex;
         justify-content: space-between;

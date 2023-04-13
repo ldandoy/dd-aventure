@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>{{ place.name |capitalize}}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="{{ path('app_map_index') }}">{{ place.zone.name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ place.name }}
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                {{ include('shared/_perso.html.twig') }}
+            </div>
+            <div 
+                class="col-10"
+                id="story"
+                hx-get="{{ path('app_partiel_place_story', {place_id: place.id}) }}"
+                hx-trigger="load"
+                hx-target="#story"
+            >
+            </div>
+        </div>
+    </div>
+{% endblock %}
