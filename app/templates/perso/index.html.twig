@@ -30,14 +30,23 @@
                             </div>
                         </div>
                         <div class="body">
-                            <div><b>Race</b>: <span>{{ perso.race.name }}</span></div>
-                            <div><b>Point de vie</b>: <span>{{ perso.pdv }}</span></div>
-                            <div><b>Vitesse</b>: {{ perso.vitesse }}</div>
-                            <div><b>Force</b>: {{ perso.puissance }}</div>
-                            <div><b>Constitution</b>: {{ perso.constitution }}</div>
-                            <div><b>Dextérité</b>: {{ perso.dexterite }}</div>
-                            <div><b>Charisme</b>: {{ perso.charisme }}</div>
-                            <div><b>Intelligence</b>: {{ perso.intelligence }}</div>
+                            <div class="d-flex">
+                                <div class="me-4">
+                                    <div><b>Race</b>: <span>{{ perso.race.name }}</span></div>
+                                    <div><b>Point de vie</b>: <span>{{ perso.pdv }}</span></div>
+                                    <div><b>Expérience</b>: {{ perso.xp }}</div>
+                                    <div><b>Gold</b>: {{ perso.gold }}</div>
+                                </div>
+                                <div>
+                                    <div><b>Vitesse</b>: {{ perso.vitesse }}</div>
+                                    <div><b>Force</b>: {{ perso.puissance }}</div>
+                                    <div><b>Constitution</b>: {{ perso.constitution }}</div>
+                                    <div><b>Dextérité</b>: {{ perso.dexterite }}</div>
+                                    <div><b>Charisme</b>: {{ perso.charisme }}</div>
+                                    <div><b>Intelligence</b>: {{ perso.intelligence }}</div>
+                                    <div><b>Sagesse</b>: {{ perso.sagesse }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

@@ -49,7 +49,7 @@ class CityController extends AbstractController
     public function quest(City $city, Place $place, Quest $quest, Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession();
-        $perso = $em->getRepository(Perso::class)->find($session->get('perso')->getId());
+        $perso = $em->getRepository(Perso::class)->find($session->get('perso_id'));
 
         return $this->render('partiel/city/quest.html.twig', [
             'city'  => $city,

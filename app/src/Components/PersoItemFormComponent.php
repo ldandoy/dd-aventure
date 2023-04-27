@@ -12,7 +12,6 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\UX\LiveComponent\ComponentEmitsTrait;
 
 #[AsLiveComponent('perso_item_form')]

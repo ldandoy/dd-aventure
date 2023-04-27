@@ -76,6 +76,9 @@ class Perso
     #[ORM\Column]
     private ?int $xp = null;
 
+    #[ORM\Column]
+    private ?int $gold = null;
+
     public function __construct()
     {
         $this->persoItems = new ArrayCollection();
@@ -303,6 +306,18 @@ class Perso
     public function setXp(int $xp): self
     {
         $this->xp = $xp;
+
+        return $this;
+    }
+
+    public function getGold(): ?int
+    {
+        return $this->gold;
+    }
+
+    public function setGold(int $gold): self
+    {
+        $this->gold = $gold;
 
         return $this;
     }

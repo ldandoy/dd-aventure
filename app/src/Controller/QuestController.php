@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Quest;
-use App\Entity\Perso;
 use App\Service\PersoService;
 
 class QuestController extends AbstractController
@@ -22,7 +21,7 @@ class QuestController extends AbstractController
         PersoService $persoService
     ): Response
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
         $perso->addQuest($quest);
 
         $em->persist($perso);
@@ -44,7 +43,7 @@ class QuestController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
         $perso->removeQuest($quest);
 
         $em->persist($perso);

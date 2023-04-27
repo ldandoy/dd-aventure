@@ -4,7 +4,7 @@
         {{ quest.questSteps[0].description }}
 
         <div class="mt-4 text-center">
-            {% if quest not in app.session.get('perso').quests %}
+            {% if quest not in perso.quests %}
                 <a 
                     href="{{ path('app_quest_accept', {quest_id: quest.id}) }}"
                     class="btn btn-success"

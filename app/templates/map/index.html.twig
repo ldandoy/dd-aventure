@@ -11,9 +11,9 @@
         </div>
     </div>
     
-    <div class="container{% if perso %}-fluid{% endif %}">
+    <div class="container{% if app.session.get('perso') %}-fluid{% endif %}">
         <div class="row">
-            {% if perso %}
+            {% if app.session.get('perso') %}
                 <div class="col-2">
                     {{ include('shared/_perso.html.twig') }}
                 </div>

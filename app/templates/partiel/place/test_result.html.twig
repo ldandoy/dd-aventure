@@ -17,14 +17,14 @@
             <p>{{ story.placeTest.textFailed }}</p>
         {% endif %}
 
-        <a
-            href="{{ path('app_place_story', {place_id: place.id}) }}"
+        <button
+            hx-get="{{ path('app_place_story', {place_id: place.id}) }}"
             hx-trigger="click"
             hx-target="#story"
             class="btn btn-success"
         >
             Poursuivre l'exploration
-        </a>
+        </button>
 
         <a
             href="{{ path('app_place_show', {place_id: place.id}) }}"

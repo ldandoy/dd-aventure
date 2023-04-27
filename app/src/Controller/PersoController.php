@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Perso;
 use App\Entity\Place;
-use App\Entity\Quest;
 use App\Form\PersoType;
+use App\Service\UserService;
 use App\Service\PersoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,14 +21,10 @@ class PersoController extends AbstractController
 {
     #[Route('/persos', name: 'app_perso_index')]
     public function index(
-        PersoService $persoService
+        UserService $userService
     ): Response
     {
-        /*$persos = $em->getRepository(Perso::class)->findBy([
-            'user' => $this->getUser()
-        ]);*/
-
-        $persos = $persoService->getUserPersos($this->getUser());
+        $persos = $userService->getUserPersos($this->getUser());
         
         return $this->render('perso/index.html.twig', [
             'persos' => $persos
@@ -138,7 +134,6 @@ class PersoController extends AbstractController
     #[Entity('perso', options: ['id' => 'perso_id'])]
     public function quests(
         Perso $perso,
-        EntityManagerInterface $em,
         PersoService $persoService
     ): Response
     {
@@ -147,12 +142,9 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('app_perso_index');
         }
 
-        // $quests = $em->getRepository(Quest::class)->findAll();
-
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
 
         return $this->render('perso/quests.html.twig', [
-            // 'quests'    => $quests,
             'perso'     => $perso
         ]);
     }

@@ -10,15 +10,26 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ path('app_home') }}"><i class="fa-solid fa-home"></i> Accueil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ path('app_perso_index') }}"><i class="fa-solid fa-users"></i> Persos</a>
-                    </li>
 
-                    {% if app.session.has('perso')  %}
+                    {% if app.session.has('perso_id')  %}
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ path('app_map_index') }}"><i class="fa-solid fa-map-location-dot"></i> Carte</a>
                         </li>
                     {% endif %}
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ app.user.email }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a class="nav-link" href="{{ path('app_perso_index') }}"><i class="fa-solid fa-users"></i> Persos</a>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li>
+                        </ul>
+                    </li>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ path('app_login') }}"><i class="fa-solid fa-home"></i> Connexion</a>

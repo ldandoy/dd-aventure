@@ -19,11 +19,8 @@ class MapController extends AbstractController
             'active' => false
         ]);
 
-        $perso = $persoService->getPerso();
-        
         return $this->render('map/index.html.twig', [
-            "zones" => $zones,
-            'perso' => $perso
+            "zones" => $zones
         ]);
     }
 }

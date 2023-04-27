@@ -15,11 +15,8 @@ class CityController extends AbstractController
     #[Entity('city', options: ['id' => 'city_id'])]
     public function show(City $city, PersoService $persoService): Response
     {
-        $perso = $persoService->getPerso();
-
         return $this->render('city/show.html.twig', [
-            "city"  => $city,
-            'perso' => $perso
+            "city"  => $city
         ]);
     }
 }

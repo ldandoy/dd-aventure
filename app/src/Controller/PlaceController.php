@@ -21,7 +21,7 @@ class PlaceController extends AbstractController
         PlaceStoryService $placeStoryService
     ): Response
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
         $story = $placeStoryService->getRandPlaceStory($place);
 
         return $this->render('place/story.html.twig', [
@@ -38,7 +38,7 @@ class PlaceController extends AbstractController
         PersoService $persoService
     )
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
 
         return $this->render('place/show.html.twig', [
             "place"  => $place,

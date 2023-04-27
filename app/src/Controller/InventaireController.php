@@ -16,7 +16,7 @@ class InventaireController extends AbstractController
     #[Route('/inventaire', name: 'app_inventaire')]
     public function index(PersoService $persoService): Response
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
 
         return $this->render('inventaire/index.html.twig', [
             'perso' => $perso
@@ -27,12 +27,26 @@ class InventaireController extends AbstractController
     #[Entity('item', options: ['id' => 'item_id'])]
     public function remove(Item $item, PersoService $persoService, ItemService $itemService): Response
     {
-        $perso = $persoService->getPerso();
+        $perso = $persoService->getActivePerso();
         $persoService->removeItem($perso, $item);
 
         $this->addFlash(
             'success',
             'Item bien déposé !'
+        );
+
+        return $this->redirectToRoute('app_inventaire');
+    }
+
+    #[Route('/inventaire/{item_id}/use', name: 'app_inventaire_use')]
+    #[Entity('item', options: ['id' => 'item_id'])]
+    public function use(Item $item, PersoService $persoService, ItemService $itemService): Response
+    {
+        $persoService->useItem($item);
+
+        $this->addFlash(
+            'success',
+            'Item bien utilisé !'
         );
 
         return $this->redirectToRoute('app_inventaire');

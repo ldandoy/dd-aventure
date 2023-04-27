@@ -39,6 +39,7 @@
                                 <td>{{ persoItem.item.name }}</td>
                                 <td>{{ persoItem.qte * persoItem.item.weight }}</td>
                                 <td>
+                                    <a href="{{ path('app_inventaire_use', {item_id: persoItem.item.id}) }}" class="btn btn-primary">Utiliser</a>
                                     <a href="{{ path('app_inventaire_remove', {item_id: persoItem.item.id}) }}" class="btn btn-danger"><i class="fa-solid fa-download"></i> Déposer</a>
                                 </td>
                             </tr>

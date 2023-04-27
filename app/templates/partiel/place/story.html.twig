@@ -26,6 +26,17 @@
                     </button>
                 {% endif %}
 
+                {% if story.type.id == 3 %}
+                    <button
+                        hx-get="{{ path('app_partiel_place_fight', { place_id: place.id, story_id: story.id, freak_id: freak.id}) }}"
+                        hx-trigger="click"
+                        hx-target="#story"
+                        class="btn btn-success"
+                    >
+                        Attaquer
+                    </button>
+                {% endif %}
+
                 {% if story.type.id == 5 %}
                     <button
                         hx-get="{{ path('app_partiel_place_take', {place_id: place.id, item_id: item.id}) }}"
