@@ -6,6 +6,8 @@ use App\Repository\PnjRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: PnjRepository::class)]
 class Pnj
@@ -17,6 +19,9 @@ class Pnj
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column(type: "boolean", options: ["default" => "1"])]
+    private ?bool $active = true;
 
     #[ORM\ManyToOne(inversedBy: 'pnjs')]
     private ?City $city = null;
@@ -31,9 +36,28 @@ class Pnj
     #[ORM\OneToMany(mappedBy: 'pnj', targetEntity: Quest::class)]
     private Collection $quests;
 
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Gedmo\Timestampable(on: "update")]
+    private $updated;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -87,6 +111,28 @@ class Pnj
         $this->job = $job;
 
         return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**

@@ -2,27 +2,32 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
-use Symfony\Component\Security\Core\User\UserInterface;
-
-use App\Entity\User;
-use App\Entity\Perso;
-use App\Entity\Zone;
-use App\Entity\Quest;
-use App\Entity\Item;
-use App\Entity\Pnj;
 use App\Entity\Job;
+use App\Entity\Pnj;
 use App\Entity\City;
+use App\Entity\Item;
+use App\Entity\Race;
+use App\Entity\User;
+use App\Entity\Zone;
+
+use App\Entity\Freak;
+use App\Entity\Perso;
 use App\Entity\Place;
+use App\Entity\Quest;
+use App\Entity\PlaceTest;
 use App\Entity\QuestStep;
 use App\Entity\PlaceStory;
 use App\Entity\PlaceStoryType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+#[IsGranted('ROLE_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
@@ -63,6 +68,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Persos', 'fas fa-users', Perso::class);
+        yield MenuItem::linkToCrud('Races', 'fas fa-users', Race::class);
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Items', 'fas fa-users', Item::class);
         yield MenuItem::section();
@@ -74,10 +80,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Quests étapes', 'fas fa-users', QuestStep::class);
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Histoires étapes', 'fas fa-users', PlaceStory::class);
-        yield MenuItem::linkToCrud('Etapes type', 'fas fa-users', PlaceStoryType::class);
+        yield MenuItem::linkToCrud('Type d\'étapes', 'fas fa-users', PlaceStoryType::class);
+        yield MenuItem::linkToCrud('Tests', 'fas fa-users', PlaceTest::class);
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Pnjs', 'fas fa-users', Pnj::class);
         yield MenuItem::linkToCrud('Jobs', 'fas fa-users', Job::class);
+        yield MenuItem::linkToCrud('Monstres', 'fas fa-users', Freak::class);
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -87,7 +95,7 @@ class DashboardController extends AbstractDashboardController
         // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
         return parent::configureUserMenu($user)
             // use the given $user object to get the user name
-            ->setName($user->getFullName())
+            ->setName($user->getUsername())
             
             // you can use any type of menu item, except submenus
             ->addMenuItems([

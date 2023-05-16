@@ -21,6 +21,7 @@
             {% if persos|length > 0 %}
                 {% for perso in persos %}
                     <div class="box">
+                        <img src="{{ vich_uploader_asset(perso) }}" alt="{{ perso.name }}">
                         <div class="title">
                             <h2>{{ perso.name }}</h2>
                             <div class="">

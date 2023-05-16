@@ -6,6 +6,8 @@ use App\Repository\ZoneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: ZoneRepository::class)]
 class Zone
@@ -27,14 +29,33 @@ class Zone
     #[ORM\OneToMany(mappedBy: 'zone', targetEntity: Place::class)]
     private Collection $places;
 
-    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
-    private ?bool $active = false;
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Gedmo\Timestampable(on: "update")]
+    private $updated;
+
+    #[ORM\Column(type: "boolean", options: ["default" => "1"])]
+    private ?bool $active = true;
 
     public function __construct()
     {
         $this->cities = new ArrayCollection();
         $this->persos = new ArrayCollection();
         $this->places = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -52,6 +73,16 @@ class Zone
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**

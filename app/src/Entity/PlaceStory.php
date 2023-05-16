@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PlaceStoryRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,8 +28,27 @@ class PlaceStory
     #[ORM\OneToOne(mappedBy: 'place_story', cascade: ['persist', 'remove'])]
     private ?PlaceTest $placeTest = null;
 
-    #[ORM\Column(options: ["default" => false])]
-    private ?bool $active = false;
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Gedmo\Timestampable(on: "update")]
+    private $updated;
+
+    #[ORM\Column(type: "boolean", options: ["default" => "1"])]
+    private ?bool $active = true;
+
+    public function __toString()
+    {
+        return $this->description;
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +89,16 @@ class PlaceStory
         $this->place = $place;
 
         return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     public function getPlaceTest(): ?PlaceTest

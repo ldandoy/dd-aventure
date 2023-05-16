@@ -6,6 +6,8 @@ use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
@@ -24,23 +26,45 @@ class Item
     #[ORM\Column]
     private ?float $weight = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $icon = null;
+
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Gedmo\Timestampable(on: "update")]
+    private $updated;
+
     #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'items')]
     private Collection $places;
 
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: PersoItem::class)]
     private Collection $persoItems;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $icon = null;
-
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: Quest::class)]
     private Collection $quests;
+
+    #[ORM\Column(type: "boolean", options: ["default" => "1"])]
+    private ?bool $active = true;
 
     public function __construct()
     {
         $this->places = new ArrayCollection();
         $this->persoItems = new ArrayCollection();
         $this->quests = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -82,6 +106,16 @@ class Item
         $this->weight = $weight;
 
         return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**
@@ -146,6 +180,18 @@ class Item
     public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

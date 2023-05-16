@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PlaceTestRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,12 +33,29 @@ class PlaceTest
     #[ORM\Column]
     private ?int $xp = null;
 
-    #[ORM\OneToOne(inversedBy: 'placeTest', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?PlaceStory $place_story = null;
+    /**
+     * @var \DateTime
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Gedmo\Timestampable(on: "update")]
+    private $updated;
+
+    #[ORM\Column(type: "boolean", options: ["default" => "1"])]
+    private ?bool $active = true;
 
     #[ORM\Column(length: 255)]
     private ?string $action = null;
+
+    #[ORM\OneToOne(inversedBy: 'placeTest', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PlaceStory $place_story = null;
 
     public function getId(): ?int
     {
@@ -114,6 +132,28 @@ class PlaceTest
         $this->xp = $xp;
 
         return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     public function getPlaceStory(): ?PlaceStory

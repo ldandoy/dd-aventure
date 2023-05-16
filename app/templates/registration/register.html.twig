@@ -11,6 +11,8 @@
         <h1 class="h3 mb-5 font-weight-normal text-center">Créez votre compte</h1>
         
         {{ form_row(registrationForm.email) }}
+
+         {{ form_row(registrationForm.username) }}
         
         {{ form_row(registrationForm.plainPassword, {
             label: 'Mot de passe'

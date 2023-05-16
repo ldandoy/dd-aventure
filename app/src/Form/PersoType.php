@@ -2,14 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Perso;
 use App\Entity\Race;
+use App\Entity\Perso;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PersoType extends AbstractType
 {
@@ -29,8 +30,10 @@ class PersoType extends AbstractType
                 'placeholder'   => 'Choisissez une race',
                 'autocomplete'  => true,
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Créer'
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'asset_helper' => true,
             ])
         ;
     }
