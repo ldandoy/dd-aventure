@@ -1,6 +1,6 @@
 <div {{ attributes }} data-poll>
-    <div class="card">
-        <div class="card-body">
+    <div class="card" style="background-image: url({{ vich_uploader_asset(perso) }}); background-size: cover;">
+        <div class="card-body" style="background-color: rgba(0,0,0, 0.75);">
             <h5 class="card-title">
                 {{ perso.name }} ({{ perso.race.name }})
             </h5>

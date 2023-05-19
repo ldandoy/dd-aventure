@@ -39,30 +39,37 @@ class PersoController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            $perso = $form->getData();
 
-            $perso->setPuissance(random_int(6, 20));
-            $perso->setVitesse(random_int(0, 10));
-            $perso->setPdv(20);
-            $perso->setDexterite(random_int(6, 20));
-            $perso->setCharisme(random_int(6, 20));
-            $perso->setIntelligence(random_int(6, 20));
-            $perso->setConstitution(random_int(6, 20));
-            $perso->setSagesse(random_int(6, 20));
-            $perso->setUser($this->getUser());
+            if (count($this->getUser()->getPersos()) < 4) {
+                $perso = $form->getData();
+
+                $perso->setPuissance(random_int(6, 20));
+                $perso->setVitesse(random_int(0, 10));
+                $perso->setPdv(20);
+                $perso->setDexterite(random_int(6, 20));
+                $perso->setCharisme(random_int(6, 20));
+                $perso->setIntelligence(random_int(6, 20));
+                $perso->setConstitution(random_int(6, 20));
+                $perso->setSagesse(random_int(6, 20));
+                $perso->setUser($this->getUser());
 
 
-            $place = $em->getRepository(Place::class)->find(2);
-            $perso->setPlace($place);
+                /*$place = $em->getRepository(Place::class)->find(2);
+                $perso->setPlace($place);*/
 
-            $em->persist($perso);
-            $em->flush();
+                $em->persist($perso);
+                $em->flush();
 
-            $this->addFlash(
-                'success',
-                'Personnage bien créé !'
-            );
+                $this->addFlash(
+                    'success',
+                    'Personnage bien créé !'
+                );
+            } else {
+                $this->addFlash(
+                    'danger',
+                    'Vous ne pouvez créer que 4 personnages !'
+                );
+            }
 
             return $this->redirectToRoute('app_perso_index');
         }
@@ -105,6 +112,7 @@ class PersoController extends AbstractController
 
         return $this->render('perso/edit.html.twig', [
             'form'  => $form->createView(),
+            'perso' => $perso
         ]);
     }
 

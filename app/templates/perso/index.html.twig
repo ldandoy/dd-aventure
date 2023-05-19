@@ -3,12 +3,22 @@
 {% block title %}Liste de tous vos personnages{% endblock %}
 
 {% block body %}
+    <style>
+        body {
+            background-image: url(/img/circle1.png);
+            background-position: center center;
+            background-size: cover;
+        }
+    </style>
+
     <div class="top">
         <div class="container">
             <div class="d-flex justify-content-between">
-                <h1>Liste des personnages</h1>
+                <h1>Vos personnages</h1>
                 <div>
-                    <a href="{{ path('app_perso_add') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Créer un personnage</a>
+                    {% if app.user.persos|length < 3 %}
+                        <a href="{{ path('app_perso_add') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Créer un personnage</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -21,22 +31,24 @@
             {% if persos|length > 0 %}
                 {% for perso in persos %}
                     <div class="box">
-                        <img src="{{ vich_uploader_asset(perso) }}" alt="{{ perso.name }}">
-                        <div class="title">
-                            <h2>{{ perso.name }}</h2>
-                            <div class="">
-                                <a href="{{ path('app_aventure_start', { perso_id: perso.id, city_id: perso.place.city.id }) }}" class="btn btn-success">Partir à l'aventure</a>
-                                <a href="{{ path('app_perso_edit', { id: perso.id }) }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i> Editer</a>
-                                <a href="{{ path('app_perso_delete', { id: perso.id }) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</a>
+                        <img class="box-image" src="{{ vich_uploader_asset(perso) }}" alt="{{ perso.name }}">
+                        <div class="box-body">
+                            <div class="title">
+                                <h2>{{ perso.name }}</h2>
+                                <div class="">
+                                    <a href="{{ path('app_aventure_start', { perso_id: perso.id }) }}" class="btn btn-success"><i class="fa-solid fa-play"></i> Jouer</a>
+                                    <a href="{{ path('app_perso_edit', { id: perso.id }) }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i> Editer</a>
+                                    <a href="{{ path('app_perso_delete', { id: perso.id }) }}" onclick="return confirm('Etes-vous sur ?')" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="body">
+                        
                             <div class="d-flex">
                                 <div class="me-4">
                                     <div><b>Race</b>: <span>{{ perso.race.name }}</span></div>
                                     <div><b>Point de vie</b>: <span>{{ perso.pdv }}</span></div>
                                     <div><b>Expérience</b>: {{ perso.xp }}</div>
                                     <div><b>Gold</b>: {{ perso.gold }}</div>
+                                    <div><b>Lieu</b>: {{ perso.place ? perso.place.name }}</div>
                                 </div>
                                 <div>
                                     <div><b>Vitesse</b>: {{ perso.vitesse }}</div>

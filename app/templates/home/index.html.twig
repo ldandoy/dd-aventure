@@ -4,10 +4,41 @@
 
 {% block body %}
     <div class="hero">
-
+        <h1>DADANEE<br />Lépreuve des héros
     </div>
     
     <div class="container">
-        Home Page
+        <div class="row">
+            <div class="col">
+                <div class="title"><h2>Bienvenue dans l'univers de DADANEE, l'épreuve des héros</h2></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-3">
+                <img src="/img/perry_homes.png" alt="Perry Homes" class="img-fluid" />
+            </div>
+            <div class="col">
+                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <p>Vous vous trouvez dans la ville de Keth, capital de l'empire gouverner le grand empereur Lukarn, depuis plus de 60 ans. Alors que vous vous baladez dans le marcher
+                    une jeune femme vous tent un papier et s'enfuit aussi vite.</p>
+                    
+                    <p>Vous aller incarner un héro qui parcour le monde de DADANEE. Vous suivrez des pistes, rencontrez des monstres, des trésors, résolverez des égnigmes, pour faire
+                    triompher le bien.</p>
+
+                    <p>Commencer par créer voter compte, et ensutie vous pourrez chosir le héro que vous voulez incarné</p>
+
+                    <p class="text-center">
+                        <a href="{{ path('app_login') }}" class="btn btn-lg btn-success">Se connecter</a>
+                    </p>
+                {% else %}
+                    <p>Très bien, Vous êtes connecté !<p>
+                    <p>Venez choisir votre héro en cliquant sur le lien ci dessous, et rejoinez la jeune femme</p>
+                    
+                    <p class="text-center">
+                        <a href="{{ path('app_perso_index') }}" class="btn btn-lg btn-success">Choisir vote personnage</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -14,19 +14,24 @@ use App\Service\PersoService;
 #[IsGranted('ROLE_USER')]
 class AventureController extends AbstractController
 {
-    #[Route('/aventure/{perso_id}/start/{city_id}', name: 'app_aventure_start')]
+    #[Route('/aventure/{perso_id}/start', name: 'app_aventure_start')]
     #[Entity('perso', options: ['id' => 'perso_id'])]
-    #[Entity('city', options: ['id' => 'city_id'])]
     public function start(
-        Perso $perso, 
-        City $city,
+        Perso $perso,
         PersoService $persoService
     ): Response
     {
         $persoService->setCurrentPersoId($perso);
+
+        if ($perso->getPlace() !== null) {
+            $route = "test";
+        } else {
+            $route = "app_partiel_aventure_start";
+        }
         
-        return $this->redirectToRoute('app_city_show', [
-            'city_id' => $city->getId()
+        return $this->render('aventure/index.html.twig', [
+            "perso" => $perso,
+            "url"   => $route
         ]);
     }
 }

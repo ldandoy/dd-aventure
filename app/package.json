@@ -29,6 +29,6 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "htmx.org": "^1.8.6"
+        "htmx.org": "^1.9.2"
     }
 }

@@ -2535,10 +2535,10 @@ htmlparser2@^6.1.0:
     domutils "^2.5.2"
     entities "^2.0.0"
 
-htmx.org@^1.8.6:
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/htmx.org/-/htmx.org-1.8.6.tgz#15d99db91ecd825d46dd15687643f980a63ed229"
-  integrity sha512-88U8qwaIs4sZjzZvHgAX62B6qZoEdQNSYCRHARtYhSrk+iCUd3al8/0CrLwD8Tephsoodsf0gN9NbRrrmlJIfw==
+htmx.org@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/htmx.org/-/htmx.org-1.9.2.tgz#8850ed8895108eee46c2b4c2f70beb524fe54f3b"
+  integrity sha512-ZGbucKcalQyXdGUl+4Zt3xdRDPmNy70yNhMyDG1eDYUm/ImxmSo2rhIBDa53XitrAVhA+/CGgry+wJ1SO77wrA==
 
 http-deceiver@^1.2.7:
   version "1.2.7"

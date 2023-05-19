@@ -2,10 +2,21 @@
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 1rem;
-    border: 1px solid lightgray;
+    display: flex;
+    background-color: rgba(0,0,0, 0.75);
+    color: $light;
 
-    .title {
-        display: flex;
-        justify-content: space-between;
+    .box-image {
+        width: 15%;
+    }
+
+    .box-body {
+        margin-left: 2%;
+        width: 83%;
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }
