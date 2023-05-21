@@ -8,8 +8,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 #[IsGranted('ROLE_ADMIN')]
 class FreakCrudController extends AbstractCrudController
@@ -34,6 +35,7 @@ class FreakCrudController extends AbstractCrudController
             IntegerField::new('sagesse'),
             IntegerField::new('gold'),
             IntegerField::new('xp'),
+            AssociationField::new('places'),
             BooleanField::new('active'),
             DateTimeField::new('created')->onlyOnIndex(),
             DateTimeField::new('updated')->onlyOnIndex()

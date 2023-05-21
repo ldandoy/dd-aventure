@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql:3306
--- Généré le : mar. 16 mai 2023 à 21:46
+-- Généré le : dim. 21 mai 2023 à 21:28
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -124,7 +124,12 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20230515212949', '2023-05-15 23:29:52', 51),
 ('DoctrineMigrations\\Version20230515214022', '2023-05-15 23:40:24', 64),
 ('DoctrineMigrations\\Version20230516212802', '2023-05-16 23:28:16', 38),
-('DoctrineMigrations\\Version20230516212934', '2023-05-16 23:29:37', 27);
+('DoctrineMigrations\\Version20230516212934', '2023-05-16 23:29:37', 27),
+('DoctrineMigrations\\Version20230521163453', '2023-05-21 18:35:01', 73),
+('DoctrineMigrations\\Version20230521182832', '2023-05-21 20:28:36', 36),
+('DoctrineMigrations\\Version20230521194632', '2023-05-21 21:46:36', 40),
+('DoctrineMigrations\\Version20230521200823', '2023-05-21 22:08:29', 160),
+('DoctrineMigrations\\Version20230521201150', '2023-05-21 22:11:58', 164);
 
 -- --------------------------------------------------------
 
@@ -155,7 +160,25 @@ CREATE TABLE `freak` (
 --
 
 INSERT INTO `freak` (`id`, `name`, `puissance`, `vitesse`, `pdv`, `dexterite`, `charisme`, `intelligence`, `constitution`, `sagesse`, `xp`, `gold`, `active`, `created`, `updated`) VALUES
-(1, 'Loup', 5, 7, 5, 15, 7, 10, 5, 8, 10, 5, 1, '2023-05-15 23:10:28', '2023-05-15 23:10:28');
+(1, 'Loup', 5, 7, 3, 15, 7, 10, 5, 8, 10, 5, 1, '2023-05-15 23:10:28', '2023-05-21 23:14:05');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `freak_place`
+--
+
+CREATE TABLE `freak_place` (
+  `freak_id` int NOT NULL,
+  `place_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `freak_place`
+--
+
+INSERT INTO `freak_place` (`freak_id`, `place_id`) VALUES
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -179,7 +202,8 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id`, `name`, `price`, `weight`, `icon`, `created`, `updated`, `active`) VALUES
-(1, 'Potion', 1, 0.5, NULL, '2023-05-15 21:18:21', '2023-05-15 23:21:30', 1);
+(1, 'Potion', 1, 0.5, NULL, '2023-05-15 21:18:21', '2023-05-15 23:21:30', 1),
+(2, 'Tête de loup', 5, 0.5, NULL, '2023-05-21 21:29:23', '2023-05-21 21:29:23', 1);
 
 -- --------------------------------------------------------
 
@@ -197,7 +221,8 @@ CREATE TABLE `item_place` (
 --
 
 INSERT INTO `item_place` (`item_id`, `place_id`) VALUES
-(1, 2);
+(1, 2),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -218,8 +243,9 @@ CREATE TABLE `job` (
 --
 
 INSERT INTO `job` (`id`, `name`, `created`, `updated`, `active`) VALUES
-(1, 'Forgeront', '2023-05-15 21:40:20', '2023-05-15 21:40:20', 1),
-(2, 'Marchand', '2023-05-15 21:40:28', '2023-05-15 21:40:28', 1);
+(1, 'Forgeron', '2023-05-15 21:40:20', '2023-05-21 22:46:27', 1),
+(2, 'Marchand', '2023-05-15 21:40:28', '2023-05-15 21:40:28', 1),
+(3, 'Bourgmestre', '2023-05-21 15:12:01', '2023-05-21 15:12:01', 1);
 
 -- --------------------------------------------------------
 
@@ -278,7 +304,7 @@ CREATE TABLE `perso` (
 --
 
 INSERT INTO `perso` (`id`, `name`, `puissance`, `vitesse`, `pdv`, `dexterite`, `charisme`, `intelligence`, `constitution`, `created`, `updated`, `user_id`, `place_id`, `sagesse`, `race_id`, `xp`, `gold`, `image_name`, `image_size`) VALUES
-(2, 'Tron Gullis', 20, 4, 20, 14, 19, 18, 15, '2023-05-16 23:30:30', '2023-05-16 23:36:26', 2, 1, 15, 2, 0, 0, 'druid-2-6463f75a7b65b824455168.png', 1548718);
+(5, 'Télémaque', 10, 4, 43, 6, 15, 8, 7, '2023-05-18 23:26:48', '2023-05-21 23:26:15', 2, 1, 13, 2, 10, 0, 'druidesse-2-64669818ec2f2310354857.png', 1299006);
 
 -- --------------------------------------------------------
 
@@ -304,6 +330,13 @@ CREATE TABLE `perso_quest` (
   `quest_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `perso_quest`
+--
+
+INSERT INTO `perso_quest` (`perso_id`, `quest_id`) VALUES
+(5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -318,16 +351,20 @@ CREATE TABLE `place` (
   `description` longtext COLLATE utf8mb4_unicode_ci,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `image_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_size` int DEFAULT NULL,
+  `donjon` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `place`
 --
 
-INSERT INTO `place` (`id`, `city_id`, `name`, `zone_id`, `description`, `active`, `created`, `updated`) VALUES
-(1, 1, 'Forge', 1, '<div>Vous sentez l\'air chaud du feu, et entendez les bruits du marteaux rebondissant sur l\'acier</div>', 1, '2023-05-15 21:24:56', '2023-05-15 21:24:56'),
-(2, NULL, 'Camps des chasseurs de loups', 1, '<div>Le camps est désert à cette heure de la nuit</div>', 1, '2023-05-15 21:24:56', '2023-05-15 21:24:56');
+INSERT INTO `place` (`id`, `city_id`, `name`, `zone_id`, `description`, `active`, `created`, `updated`, `image_name`, `image_size`, `donjon`) VALUES
+(1, 1, 'Forge', 1, '<div>Vous sentez l\'air chaud du feu, et entendez les bruits du marteaux rebondissant sur l\'acier</div>', 1, '2023-05-15 21:24:56', '2023-05-21 18:40:52', 'forge-646a4994b6635855808904.png', 1667889, 0),
+(2, NULL, 'Camps des chasseurs de loups', 1, '<div>Le camps est désert à cette heure de la nuit</div>', 1, '2023-05-15 21:24:56', '2023-05-21 21:47:11', 'champs-646a668a5d759646337281.png', 2205606, 1),
+(3, 1, 'Marché', 1, '<div>C\'est le grand marcher de la ville. On y trouve toutes sortes d\'épices et de voleurs à la tir.</div>', 1, '2023-05-21 17:11:19', '2023-05-21 22:46:03', 'market-646a49c8dd4ef768405609.png', 1763685, 0);
 
 -- --------------------------------------------------------
 
@@ -350,7 +387,26 @@ CREATE TABLE `place_story` (
 --
 
 INSERT INTO `place_story` (`id`, `type_id`, `description`, `place_id`, `active`, `created`, `updated`) VALUES
-(1, 1, '<div>Vous avancez dans la taïga, alors qui fait froid. Mais vous avez de la chance pour le moment personne ne vous attaque</div>', 2, 1, '2023-05-15 23:46:51', '2023-05-15 23:46:51');
+(1, 1, '<div>Vous avancez dans la taïga, alors qui fait froid. Mais vous avez de la chance pour le moment personne ne vous attaque</div>', 2, 1, '2023-05-15 23:46:51', '2023-05-21 22:14:39'),
+(2, 3, '<div>Vous tombez né à né avec un loup</div>', 2, 1, '2023-05-21 21:33:50', '2023-05-21 21:33:50');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `place_story_freak`
+--
+
+CREATE TABLE `place_story_freak` (
+  `place_story_id` int NOT NULL,
+  `freak_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `place_story_freak`
+--
+
+INSERT INTO `place_story_freak` (`place_story_id`, `freak_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -410,15 +466,18 @@ CREATE TABLE `pnj` (
   `job_id` int DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `image_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_size` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `pnj`
 --
 
-INSERT INTO `pnj` (`id`, `city_id`, `name`, `place_id`, `job_id`, `active`, `created`, `updated`) VALUES
-(1, NULL, 'Tim Hul', 1, 1, 1, '2023-05-15 23:02:38', '2023-05-15 23:02:38');
+INSERT INTO `pnj` (`id`, `city_id`, `name`, `place_id`, `job_id`, `active`, `created`, `updated`, `image_name`, `image_size`) VALUES
+(1, NULL, 'Tina Hul', 1, 1, 1, '2023-05-15 23:02:38', '2023-05-21 20:30:35', 'female-blacksmith-3-646a634b8933a408973419.png', 1626218),
+(2, NULL, 'James Miles', 3, 3, 1, '2023-05-21 20:32:12', '2023-05-21 20:32:12', 'burgomaster-3-646a63ac93dc6238093944.png', 1669358);
 
 -- --------------------------------------------------------
 
@@ -444,7 +503,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `pnj_id`, `place_id`, `name`, `xp`, `item_id`, `total`, `active`, `created`, `updated`) VALUES
-(1, 1, 2, 'Les têtes de loups', 10, 1, 5, 1, '2023-05-15 23:04:19', '2023-05-15 23:04:19');
+(1, 2, 2, 'Les têtes de loups', 10, 2, 10, 1, '2023-05-15 23:04:19', '2023-05-21 21:30:14');
 
 -- --------------------------------------------------------
 
@@ -570,6 +629,14 @@ ALTER TABLE `freak`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `freak_place`
+--
+ALTER TABLE `freak_place`
+  ADD PRIMARY KEY (`freak_id`,`place_id`),
+  ADD KEY `IDX_EDB9DA11811D1B63` (`freak_id`),
+  ADD KEY `IDX_EDB9DA11DA6A219` (`place_id`);
+
+--
 -- Index pour la table `item`
 --
 ALTER TABLE `item`
@@ -638,6 +705,14 @@ ALTER TABLE `place_story`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_42201F1BC54C8C93` (`type_id`),
   ADD KEY `IDX_42201F1BDA6A219` (`place_id`);
+
+--
+-- Index pour la table `place_story_freak`
+--
+ALTER TABLE `place_story_freak`
+  ADD PRIMARY KEY (`place_story_id`,`freak_id`),
+  ADD KEY `IDX_2B491E1D8006A7B5` (`place_story_id`),
+  ADD KEY `IDX_2B491E1D811D1B63` (`freak_id`);
 
 --
 -- Index pour la table `place_story_type`
@@ -716,13 +791,13 @@ ALTER TABLE `freak`
 -- AUTO_INCREMENT pour la table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `job`
 --
 ALTER TABLE `job`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `messenger_messages`
@@ -734,7 +809,7 @@ ALTER TABLE `messenger_messages`
 -- AUTO_INCREMENT pour la table `perso`
 --
 ALTER TABLE `perso`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `perso_item`
@@ -746,13 +821,13 @@ ALTER TABLE `perso_item`
 -- AUTO_INCREMENT pour la table `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `place_story`
 --
 ALTER TABLE `place_story`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `place_story_type`
@@ -770,7 +845,7 @@ ALTER TABLE `place_test`
 -- AUTO_INCREMENT pour la table `pnj`
 --
 ALTER TABLE `pnj`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `quest`
@@ -811,6 +886,13 @@ ALTER TABLE `zone`
 --
 ALTER TABLE `city`
   ADD CONSTRAINT `FK_2D5B02349F2C3FAB` FOREIGN KEY (`zone_id`) REFERENCES `zone` (`id`);
+
+--
+-- Contraintes pour la table `freak_place`
+--
+ALTER TABLE `freak_place`
+  ADD CONSTRAINT `FK_EDB9DA11811D1B63` FOREIGN KEY (`freak_id`) REFERENCES `freak` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_EDB9DA11DA6A219` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `item_place`
@@ -854,6 +936,13 @@ ALTER TABLE `place`
 ALTER TABLE `place_story`
   ADD CONSTRAINT `FK_42201F1BC54C8C93` FOREIGN KEY (`type_id`) REFERENCES `place_story_type` (`id`),
   ADD CONSTRAINT `FK_42201F1BDA6A219` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
+
+--
+-- Contraintes pour la table `place_story_freak`
+--
+ALTER TABLE `place_story_freak`
+  ADD CONSTRAINT `FK_2B491E1D8006A7B5` FOREIGN KEY (`place_story_id`) REFERENCES `place_story` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_2B491E1D811D1B63` FOREIGN KEY (`freak_id`) REFERENCES `freak` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `place_test`

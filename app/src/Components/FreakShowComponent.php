@@ -21,7 +21,6 @@ class FreakShowComponent extends AbstractController
     public function __construct(
         private FightService $fightService,
     ){
-        // dd($fightService->getFight());
         $this->freak = $fightService->getFight()->freak;
     }
 

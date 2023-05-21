@@ -13,6 +13,19 @@ use App\Service\PersoService;
 
 class QuestController extends AbstractController
 {
+    #[Route('/quest/{quest_id}/show', name: 'app_quest_show')]
+    #[Entity('quest', options: ['id' => 'quest_id'])]
+    public function show(
+        Quest $quest,
+        EntityManagerInterface $em,
+        PersoService $persoService
+    ): Response
+    {
+        return $this->render('quest/show.html.twig', [
+            'quest' => $quest
+        ]);
+    }
+
     #[Route('/quest/{quest_id}/accept', name: 'app_quest_accept')]
     #[Entity('quest', options: ['id' => 'quest_id'])]
     public function accept(

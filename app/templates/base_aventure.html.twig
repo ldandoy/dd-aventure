@@ -1,25 +1,31 @@
-<div class="top">
-    <div class="container">
-        <div class="d-flex justify-content-between">
-            <h1>A l'aventure avec {{ perso.name }}</h1>
-            <div>
-                <a href="{{path('app_perso_index')}}" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Quitter</a>
+{% extends 'base.html.twig' %}
+
+{% block title %}Histoire et aventure{% endblock %}
+
+{% block body %}
+    <div class="top">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h1>{% block sstitle %}{% endblock %}</h1>
+                <div>
+                    <a href="{{path('app_perso_index')}}" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Quitter</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container{% if perso %}-fluid{% endif %}">
-    <div class="row">
-        {% if perso %}
+    {% block breadcrumb %}{% endblock %}
+
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-2">
                 {{ include('shared/_perso.html.twig') }}
             </div>
-        {% endif %}
-        <div class="col">
-            {{ include('shared/_alert.html.twig') }}
+            <div class="col-10">
+                {{ include('shared/_alert.html.twig') }}
 
-            {% block content %}{% endblock %}
+                {% block content %}{% endblock %}
+            </div>
         </div>
     </div>
-</div>
+{% endblock %}

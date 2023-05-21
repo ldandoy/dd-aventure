@@ -43,8 +43,8 @@
         {
             if ($this->session->get('fight')->perso->getVitesse() >= $this->session->get('fight')->freak->getVitesse()) {
                 $this->addStep($this->session->get('fight')->perso->getName() ." attaque en premier");
-                // $this->persoFight();
-                // $this->freakAtk();
+                $this->persoFight();
+                $this->freakAtk();
             } else {
                 $this->addStep($this->session->get('fight')->freak->getName() . " attaque en premier");
                 $this->freakAtk();
@@ -95,6 +95,17 @@
         {
             $steps = $this->session->get('steps');
             $steps[] = $step;
+            ksort($steps);
             $this->session->set('steps', $steps);
+        }
+
+        public function getSteps(): array
+        {
+            return $this->session->get('steps');
+        }
+
+        public function clearSteps(): void
+        {
+            $this->session->remove('steps');
         }
     }

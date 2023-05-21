@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_aventure.html.twig' %}
 
-{% block title %}Home page{% endblock %}
+{% block sstitle %}A l'aventure avec {{ perso.name }}{% endblock %}
 
 {% block body %}
     <div class="hero">
@@ -17,24 +17,41 @@
             <div class="col col-3">
                 <img src="/img/perry_homes.png" alt="Perry Homes" class="img-fluid" />
             </div>
-            <div class="col">
+            <div class="col text-justify">
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <p>Vous vous trouvez dans la ville de Keth, capital de l'empire gouverner le grand empereur Lukarn, depuis plus de 60 ans. Alors que vous vous baladez dans le marcher
-                    une jeune femme vous tent un papier et s'enfuit aussi vite.</p>
+                    <p>Vous vous trouvez dans la ville de Keth, capitale de l'empire gouverné le grand empereur Lukarn, depuis plus de 60 ans.</p>
                     
-                    <p>Vous aller incarner un héro qui parcour le monde de DADANEE. Vous suivrez des pistes, rencontrez des monstres, des trésors, résolverez des égnigmes, pour faire
-                    triompher le bien.</p>
+                    <p>Comme beaucoup de jeune, vous avez choisi une vie d'aventurier allant d'aventure en aventure. Pour vous l'honner et la gloire sont
+                    votre raison de vivre !</p>
 
-                    <p>Commencer par créer voter compte, et ensutie vous pourrez chosir le héro que vous voulez incarné</p>
+                    <p>Vous avez choisi de venir à la capitale car c'est là qu'on trouve le plus de mission. Il se trouve que la vie n'est pas facile ces derniers
+                    temps. Les gens n'ont plus autant d'argent qu'avant. Alors quand il est diffile de se payer sa pitence, c'est encore plus dur de trouver
+                    quelques pièce pour payer quelqu'un a tuer un troll, ou des gobelins.</p>
 
-                    <p class="text-center">
-                        <a href="{{ path('app_login') }}" class="btn btn-lg btn-success">Se connecter</a>
-                    </p>
+                    <p>Alors que vous vous baladez dans le marcher une jeune femme vous bouscule. Elle s'excuse, et accepte la main que vous lui tendez.
+                    Une fois debout, elle s'éloigne, mais vous sentez quelque chose au creu de votre main. C'est bout de papier, sans le montrer vous le rangez dans
+                    votre poche, et vous continuez votre tour. Une fois rentré, vous resortez le papier.</p>
+                    
+                    <p class="fst-italic">Vous aller incarner un héro qui parcour le monde de DADANEE. Vous suivrez des pistes, rencontrez des monstres, trouverez des trésors, 
+                    résolverez des égnigmes, pour faire triompher le bien.</p>
+
+                    <p class="fst-italic">Commencez par créer voter compte, puis choississez le héro que vous voulez incarner</p>
+
+                    <p class="fst-italic">Quand se sera fait, venez me retrouver à l'auberge du Poney Fringuant</p>
+
+                    <p class="fst-italic">Bonne chance aventurier !</p>
+
+                    <div class="text-center mt-5">
+                        <a href="{{ path('app_register') }}" class="btn btn-lg btn-success">Créez votre compte</a>
+                        ou
+                        <a href="{{ path('app_login') }}" class="btn btn-lg btn-success">Vous connecter</a>
+                    </div>
                 {% else %}
                     <p>Très bien, Vous êtes connecté !<p>
-                    <p>Venez choisir votre héro en cliquant sur le lien ci dessous, et rejoinez la jeune femme</p>
                     
-                    <p class="text-center">
+                    <p>Choisissez votre héro en cliquant sur le lien ci dessous, et poursuivez l'aventure</p>
+                    
+                    <p class="text-center mt-5">
                         <a href="{{ path('app_perso_index') }}" class="btn btn-lg btn-success">Choisir vote personnage</a>
                     </p>
                 {% endif %}

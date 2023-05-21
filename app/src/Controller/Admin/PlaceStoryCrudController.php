@@ -27,6 +27,7 @@ class PlaceStoryCrudController extends AbstractCrudController
             AssociationField::new('place'),
             AssociationField::new('type'),
             TextEditorField::new('description'),
+            AssociationField::new('freaks'),
             BooleanField::new('active'),
             DateTimeField::new('created')->onlyOnIndex(),
             DateTimeField::new('updated')->onlyOnIndex()

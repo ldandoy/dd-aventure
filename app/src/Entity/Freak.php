@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FreakRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\DBAL\Types\Types;
@@ -64,6 +66,23 @@ class Freak
     #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     #[Gedmo\Timestampable(on: "update")]
     private $updated;
+
+    #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'freaks')]
+    private Collection $places;
+
+    #[ORM\ManyToMany(targetEntity: PlaceStory::class, mappedBy: 'freaks')]
+    private Collection $placeStories;
+
+    public function __construct()
+    {
+        $this->places = new ArrayCollection();
+        $this->placeStories = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function getId(): ?int
     {
@@ -222,5 +241,56 @@ class Freak
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        $this->places->removeElement($place);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlaceStory>
+     */
+    public function getPlaceStories(): Collection
+    {
+        return $this->placeStories;
+    }
+
+    public function addPlaceStory(PlaceStory $placeStory): self
+    {
+        if (!$this->placeStories->contains($placeStory)) {
+            $this->placeStories->add($placeStory);
+            $placeStory->addFreak($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaceStory(PlaceStory $placeStory): self
+    {
+        if ($this->placeStories->removeElement($placeStory)) {
+            $placeStory->removeFreak($this);
+        }
+
+        return $this;
     }
 }

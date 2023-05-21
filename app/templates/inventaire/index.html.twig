@@ -1,52 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_aventure.html.twig' %}
 
-{% block title %}Home page{% endblock %}
+{% block sstitle %}Inventaire{% endblock %}
 
-{% block body %}
-    <div class="top">
-        <div class="container">
-            <div class="d-flex justify-content-between">
-                <h1>Inventaire de {{ perso.name }}</h1>
-            </div>
-        </div>
-    </div>
-    
-    <div class="container{% if perso %}-fluid{% endif %}">
-        <div class="row">
-            {% if perso %}
-                <div class="col-2">
-                    {{ include('shared/_perso.html.twig') }}
-                </div>
-            {% endif %}
-            <div class="col">
-                {{ include('shared/_alert.html.twig') }}
+{% block content %}
+    <style>
+        body {
+            background-image: url(/img/backpack.png);
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
 
-                <table class="table">
-                    <thead>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Qte</th>
+                        <th width="75%">Nom</th>
+                        <th>Poids</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for persoItem in perso.persoItems %}
                         <tr>
-                            <th>#</th>
-                            <th>Qte</th>
-                            <th width="75%">Nom</th>
-                            <th>Poids</th>
-                            <th>Actions</th>
+                            <td><i class="fa-solid {{ persoItem.item.icon }}"></i></td>
+                            <td>{{ persoItem.qte }}</td>
+                            <td>{{ persoItem.item.name }}</td>
+                            <td>{{ persoItem.qte * persoItem.item.weight }}</td>
+                            <td>
+                                <a href="{{ path('app_inventaire_use', {item_id: persoItem.item.id}) }}" class="btn btn-primary">Utiliser</a>
+                                <a href="{{ path('app_inventaire_remove', {item_id: persoItem.item.id}) }}" class="btn btn-danger"><i class="fa-solid fa-download"></i> Déposer</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for persoItem in perso.persoItems %}
-                            <tr>
-                                <td><i class="fa-solid {{ persoItem.item.icon }}"></i></td>
-                                <td>{{ persoItem.qte }}</td>
-                                <td>{{ persoItem.item.name }}</td>
-                                <td>{{ persoItem.qte * persoItem.item.weight }}</td>
-                                <td>
-                                    <a href="{{ path('app_inventaire_use', {item_id: persoItem.item.id}) }}" class="btn btn-primary">Utiliser</a>
-                                    <a href="{{ path('app_inventaire_remove', {item_id: persoItem.item.id}) }}" class="btn btn-danger"><i class="fa-solid fa-download"></i> Déposer</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

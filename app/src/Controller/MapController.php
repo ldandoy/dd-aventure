@@ -16,7 +16,7 @@ class MapController extends AbstractController
     public function index(EntityManagerInterface $em, PersoService $persoService): Response
     {
         $zones = $em->getRepository(Zone::class)->findBy([
-            'active' => false
+            'active' => true
         ]);
 
         return $this->render('map/index.html.twig', [

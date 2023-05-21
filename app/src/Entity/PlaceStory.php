@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlaceStoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,6 +46,14 @@ class PlaceStory
 
     #[ORM\Column(type: "boolean", options: ["default" => "1"])]
     private ?bool $active = true;
+
+    #[ORM\ManyToMany(targetEntity: Freak::class, inversedBy: 'placeStories')]
+    private Collection $freaks;
+
+    public function __construct()
+    {
+        $this->freaks = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -126,6 +136,30 @@ class PlaceStory
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Freak>
+     */
+    public function getFreaks(): Collection
+    {
+        return $this->freaks;
+    }
+
+    public function addFreak(Freak $freak): self
+    {
+        if (!$this->freaks->contains($freak)) {
+            $this->freaks->add($freak);
+        }
+
+        return $this;
+    }
+
+    public function removeFreak(Freak $freak): self
+    {
+        $this->freaks->removeElement($freak);
 
         return $this;
     }

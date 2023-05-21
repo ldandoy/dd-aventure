@@ -1,0 +1,66 @@
+{% extends 'base_aventure.html.twig' %}
+
+{% block sstitle %}Quête: {{ quest.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="{{ path('app_map_index') }}">{{ quest.pnj.place.city ? quest.pnj.place.city.zone.name : quest.pnj.place.zone.name }}</a>
+                        </li>
+                        {% if quest.pnj.place.city != null %}
+                            <li class="breadcrumb-item" aria-current="page">
+                                <a href="{{ path('app_city_show', {city_id: quest.pnj.place.city.id}) }}">{{ quest.pnj.place.city.name }}</a>
+                            </li>
+                        {% endif %}
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ quest.pnj.place.name }}
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            background-image: url({{ vich_uploader_asset(quest.pnj.place) }});
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col col-2">
+            <div class="card mb-4 bg-dark">
+                <img src="{{ vich_uploader_asset(quest.pnj) }}" class="card-img-top" alt="{{ quest.pnj.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.pnj.name }} ({{ quest.pnj.job.name }})</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-10">
+            <div class="card mb-4 bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.name }}</h5>
+                    <ul>
+                        {% for questStep in quest.questSteps %}
+                            <li>{{ questStep.description | raw }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p>
+                        <a href="{{ path('app_quest_accept', {'quest_id': quest.id}) }}" class="btn btn-success">Accepter</a>
+                        <a href="{{ path('app_quest_decline', {'quest_id': quest.id}) }}" class="btn btn-danger">Décliner</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_aventure.html.twig' %}
 
-{% block title %}Home page{% endblock %}
+{% block sstitle %}Home page{% endblock %}
 
-{% block body %}
+{% block content %}
     <style>
         body {
             background-image: url(/img/map.png);
@@ -11,24 +11,11 @@
         }
     </style>
 
-    <div class="top">
-        <div class="container">
-            <div class="d-flex justify-content-between">
-                <h1>Carte du monde</h1>
-            </div>
-        </div>
-    </div>
-    
-    <div class="container{% if app.session.get('perso') %}-fluid{% endif %}">
+    <div class="container-fluid">
         <div class="row">
-            {% if app.session.get('perso') %}
-                <div class="col-2">
-                    {{ include('shared/_perso.html.twig') }}
-                </div>
-            {% endif %}
-            <div class="col">
+            <div class="col-12">
                 {% for zone in zones %}
-                    <div class="card">
+                    <div class="card bg-dark">
                         <div class="card-body">
                             <h5 class="card-title">Zone {{ zone.id }} : {{ zone.name }}</h5>
 
@@ -50,7 +37,7 @@
                             <ul>
                                 {% for place in zone.places %}
                                     {% if place.city == null %}
-                                        <li><a href="{{ path('app_place_show', {place_id: place.id}) }}">{{ place.name }}</a></li>
+                                        <li><a href="{{ path('app_place_show', {place_id: place.id}) }}">{{ place.name }}</a> {% if place.donjon %}(Donjon){% endif %}</li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>

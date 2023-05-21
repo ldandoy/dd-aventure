@@ -1,0 +1,45 @@
+{% extends 'base_aventure.html.twig' %}
+
+{% block sstitle %}Combat{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            background-image: url({{ vich_uploader_asset(place) }});
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <div class="row">
+        {% if fight != null %}
+            <div class="col col-10">
+                {% for step in steps %}
+                    <div class="card bg-dark mb-4">
+                        <div class="card-body">{{ step }}</div>
+                    </div>
+                {% endfor %}
+                <div class="mt-4">
+                    <a href="{{ path('app_place_fight', {'place_id': place.id, 'freak_id': fight.freak.id}) }}" class="btn btn-success">Attaquer</a>
+                    <a href="{{ path('app_place_show', {'place_id': place.id}) }}" class="btn btn-success">Continuer à explorer</a>
+                </div>
+            </div>
+
+            <div class="col col-2">
+                {{ include('shared/_freak.html.twig') }}
+            </div>
+        {% else %}
+            <div class="col col-12">
+                {% for step in steps %}
+                    <div class="card bg-dark mb-4">
+                        <div class="card-body">{{ step }}</div>
+                    </div>
+                {% endfor %}
+                <div class="mt-5">
+                    <a href="{{ path('app_place_show', {'place_id': place.id}) }}" class="btn btn-success">Continuer à explorer</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

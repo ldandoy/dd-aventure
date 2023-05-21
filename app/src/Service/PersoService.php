@@ -30,6 +30,13 @@
             return $perso;
         }
 
+        // Save perso
+        public function save(Perso $perso): void
+        {
+            $this->em->persist($perso);
+            $this->em->flush();
+        }
+
         // Set the current perso
         public function setCurrentPersoId(Perso $perso): void
         {

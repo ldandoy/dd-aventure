@@ -7,6 +7,7 @@
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
 @import 'params';
+@import 'utils';
 @import 'box';
 @import 'auth';
 
@@ -57,6 +58,26 @@ h1 {
 }
 
 .card {
-    background-color: rgba(0,0,0, 0.75);
+    background: none;
+    color: $light;
+}
+
+.breadcrumb-item {
+    a {
+        color: $light;
+    }
+}
+
+.table {
+    color: $light;
+}
+
+.accordion, .accordion-item {
+    background: none;
+    color: $light;
+}
+
+.accordion-header, .accordion-button, .accordion-button:not(.collapsed) {
+    background: black;
     color: $light;
 }
